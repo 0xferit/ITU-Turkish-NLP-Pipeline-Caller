@@ -17,7 +17,7 @@
 ##
 ##      Author: Ferit Tunçer, ferit.tuncer@autistici.org
 
-version = 0.6
+version = 0.61
 
 #++ Configuration block - EDIT HERE
 tool = "pipelineFormal"
@@ -27,7 +27,6 @@ output_dir = "script_output"
 encoding_code = "WINDOWS-1254"
 #-- Configuration block
 
-import xml.etree.ElementTree as etree
 import sys
 import urllib.request
 import urllib.parse
@@ -89,11 +88,9 @@ def parseArgumentsAndGreet():
 args = parseArgumentsAndGreet()
 fetchInvalidMessages()
 
-parser = etree.XMLParser(encoding=encoding_code)
-
 #++ Input file block
 try:
-    tree = etree.parse(args.filename, parser=parser)
+    g = open(args.filename)
 except:
     warning("{0}".format(sys.exc_info()[1]))
     sys.exit("[FATAL] Failed to read {0}. Terminated.".format(args.filename))
@@ -113,23 +110,14 @@ except:
     sys.exit("[FATAL] Error writing to {0}".format(filepath))
 #-- Output file block
 
-root = tree.getroot()
 
-sentences = []
-for sub_element_1 in root:
-	temp_sentence = []
-	for sub_element_2 in sub_element_1:
-		temp_sentence.append(sub_element_2)
-	sentences.append(temp_sentence)
+full_text = ""
+g = open(args.filename)
+for line in g:
+    full_text += line
+print(full_text)
 
-full_text = "".join(str(e) for e in sentences)
-full_text = full_text.replace('_', ' ')
-
-##full_text = ""
-##g = open(args.filename)
-##for line in g:
-##    full_text += line
-##print(full_text)
+sentences = full_text.split('.')
 
 start_time = time.time()
 
@@ -145,11 +133,10 @@ if args.seperate == 0:
 else:
     conditional_info("[INFO] Sentence-by-sentence processing started!")
     for sentence in sentences:
-        plain_sentence = "".join(str(x.text) for x in sentence)
-        params = urllib.parse.urlencode({'tool': tool, 'input': plain_sentence, 'token': token}).encode("UTF-8")
+        params = urllib.parse.urlencode({'tool': tool, 'input': sentence, 'token': token}).encode("UTF-8")
         f.write("{0}\n".format(request(params)))
         sentence_count = len(sentences)
-        conditional_info("[INFO] Processing {0}".format(plain_sentence))
+        conditional_info("[INFO] Processing {0}".format(sentence))
     conditional_info("[DONE] It took {0} seconds to process all {1} sentences.".format(str(time.time()-start_time).split('.')[0], sentence_count))
 
 
