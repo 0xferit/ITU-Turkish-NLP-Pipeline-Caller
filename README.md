@@ -1,4 +1,4 @@
-# ITU-NLP-Pipeline-Caller
+# ITU-Turkish-NLP-Pipeline-Caller
 A tool for using ITU Turkish NLP Pipeline API
 
 TODO
