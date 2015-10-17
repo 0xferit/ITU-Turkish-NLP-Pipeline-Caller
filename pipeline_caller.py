@@ -17,20 +17,20 @@
 ##
 ##      Author: Ferit Tunçer, ferit.tuncer@autistici.org
 
-version = 0.62
-##      Changes since 0.61
-##          no_parameter_message added
-##			fixed input format issue
+version = 0.63
+##      Changes since 0.62
+##			a big cleanup
+##			token provided with token file(pipeline.token by default) now
 
 
 ##      TODOS
-##          take token out of config
 ##			http://stackoverflow.com/questions/8763451/how-to-handle-urllibs-timeout-in-python-3 sentence-by-sentence performance improvement
+##			cleanup on exceptions
 
 
 #++ Configuration block - EDIT HERE
 tool = "pipelineFormal"
-token = "Dfph8QwU3bSKvL7Fy8JFjYhuxZrul0Qw"
+token_path = "pipeline.token"
 api_url = "http://tools.nlp.itu.edu.tr/SimpleApi"
 output_dir = "script_output"
 encoding_code = "WINDOWS-1254"
@@ -75,22 +75,21 @@ def request(params):
 			sys.exit(no_parameter_message)
 		return readed_result
 	except KeyboardInterrupt:
-		f.close()
 		sys.exit("[FATAL]Terminated by keyboard interrupt.")
 	except:
-		f.close()
 		warning("{0}\nDid you configure the configuration part of the source code properly?".format(sys.exc_info()[1]))
 		print(invalid_param_message)
 		sys.exit("[FATAL]Failed to connect pipeline! Terminated.")
 
 def fetchInvalidMessages():
-    dummy_params = urllib.parse.urlencode({'tool': tool, 'input': "", 'token': token}).encode("UTF-8")
-    no_parameter_message = urllib.request.urlopen(api_url, dummy_params).read().decode("UTF-8")
-    dummy_params = urllib.parse.urlencode({'tool': tool, 'input': "dummy", 'token': "wrong_token"}).encode("UTF-8")
-    invalid_token_message = urllib.request.urlopen(api_url, dummy_params).read().decode("UTF-8")
-    dummy_params = urllib.parse.urlencode({'tool': "dummy", 'input': "dummy", 'token': token}).encode("UTF-8")
-    invalid_tool_message = urllib.request.urlopen(api_url, dummy_params).read().decode("UTF-8")
-    invalid_param_message = urllib.request.urlopen(api_url).read().decode("UTF-8")
+	dummy_params = urllib.parse.urlencode({'tool': tool, 'input': "", 'token': token}).encode("UTF-8")
+	no_parameter_message = urllib.request.urlopen(api_url, dummy_params).read().decode("UTF-8")
+	dummy_params = urllib.parse.urlencode({'tool': tool, 'input': "dummy", 'token': "wrong_token"}).encode("UTF-8")
+	invalid_token_message = urllib.request.urlopen(api_url, dummy_params).read().decode("UTF-8")
+	dummy_params = urllib.parse.urlencode({'tool': "dummy", 'input': "dummy", 'token': token}).encode("UTF-8")
+	invalid_tool_message = urllib.request.urlopen(api_url, dummy_params).read().decode("UTF-8")
+	invalid_param_message = urllib.request.urlopen(api_url).read().decode("UTF-8")
+	return no_parameter_message, invalid_token_message, invalid_tool_message, invalid_param_message
 
 def parseArgumentsAndGreet():
         option_parser = argparse.ArgumentParser(description="ITU Turkish NLP Pipeline Caller v{0}".format(version))
@@ -100,62 +99,68 @@ def parseArgumentsAndGreet():
         print("{0}".format(option_parser.description))
         return option_parser.parse_args()
 
+def readInput(path):
+	try:
+		input_file = open(path)
+		full_text = ""
+		for line in input_file:
+			full_text += line
+		sentences = full_text.split('.')
+		sentence_count = len(sentences)
+		if re.match("^\s*$", sentences[sentence_count-1]):
+			sentences.pop(sentence_count-1)
+		return full_text, sentences, sentence_count
+	except:
+		pass
+
+def getOutputPath():
+	try:
+		#filepath = ('{0}\output{1}').format(output_dir, str(time.time()).split('.')[0])
+		filepath = os.path.join(output_dir, "output{0}".format(str(time.time()).split('.')[0]))
+		if not os.path.exists(output_dir):
+			os.makedirs(output_dir)
+		output_path = open(filepath, 'w')
+		conditional_info("[INFO] Writing destination: {0}".format(filepath))
+		return output_path
+	except:
+		pass
+		
+def readToken():
+	try:
+		token_file = open(token_path)
+		token = token_file.readline()
+		return token
+	except:
+		pass
+		
+def process():
+	if args.seperate == 0:
+		conditional_info("[INFO] Batch processing started!")
+		params = urllib.parse.urlencode({'tool': tool, 'input': full_text, 'token': token}).encode("UTF-8")
+		output_path.write("{0}\n".format(request(params)))
+		conditional_info("[DONE] It took {0} seconds to process {1} sentences".format(str(time.time()-start_time).split('.')[0], sentence_count))
+	else:
+		conditional_info("[INFO] Sentence-by-sentence processing started!")
+		for sentence in sentences:
+			params = urllib.parse.urlencode({'tool': tool, 'input': sentence, 'token': token}).encode("UTF-8")
+			output_path.write("{0}\n".format(request(params)))
+			conditional_info("[INFO] Processing {0}".format(sentence))
+		conditional_info("[DONE] It took {0} seconds to process all {1} sentences.".format(str(time.time()-start_time).split('.')[0], sentence_count))
+
+
 
 args = parseArgumentsAndGreet()
-fetchInvalidMessages()
-
-#++ Input file block
 try:
-    g = open(args.filename)
+	full_text, sentences, sentence_count = readInput(args.filename)
+	output_path = getOutputPath()
+	token = readToken()
 except:
-    warning("{0}".format(sys.exc_info()[1]))
-    sys.exit("[FATAL] Failed to read {0}. Terminated.".format(args.filename))
-#-- Input file block
-
-
-#++ Output file block
-try:
-    #filepath = ('{0}\output{1}').format(output_dir, str(time.time()).split('.')[0])
-    filepath = os.path.join(output_dir, "output{0}".format(str(time.time()).split('.')[0]))
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
-    f = open(filepath, 'w')
-    conditional_info("[INFO] Writing destination: {0}".format(filepath))
-except:
-    warning("{0}".format(sys.exc_info()[1]))
-    sys.exit("[FATAL] Error writing to {0}".format(filepath))
-#-- Output file block
-
-
-full_text = ""
-g = open(args.filename)
-for line in g:
-	full_text += line
-
-sentences = full_text.split('.')
-sentence_count = len(sentences)
-
-if re.match("^\s*$", sentences[sentence_count-1]):
-	sentences.pop(sentence_count-1)
-
+	warning("{0}".format(sys.exc_info()[1]))
+	output_path.close()
+	sys.exit("[FATAL] I\O Exception")
+no_parameter_message, invalid_token_message, invalid_tool_message, invalid_param_message = fetchInvalidMessages()
 start_time = time.time()
-
 conditional_info("[INFO] Using {0} tool".format(tool))
+process()
 
-if args.seperate == 0:
-    conditional_info("[INFO] Batch processing started!")
-    params = urllib.parse.urlencode({'tool': tool, 'input': full_text, 'token': token}).encode("UTF-8")
-    f.write("{0}\n".format(request(params)))
-    conditional_info("[DONE] It took {0} seconds to process {1} sentences".format(str(time.time()-start_time).split('.')[0], sentence_count))
-
-
-else:
-    conditional_info("[INFO] Sentence-by-sentence processing started!")
-    for sentence in sentences:
-        params = urllib.parse.urlencode({'tool': tool, 'input': sentence, 'token': token}).encode("UTF-8")
-        f.write("{0}\n".format(request(params)))
-        conditional_info("[INFO] Processing {0}".format(sentence))
-    conditional_info("[DONE] It took {0} seconds to process all {1} sentences.".format(str(time.time()-start_time).split('.')[0], sentence_count))
-
-
-f.close()
+output_path.close()
