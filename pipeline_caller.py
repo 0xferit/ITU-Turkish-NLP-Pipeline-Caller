@@ -17,7 +17,16 @@
 ##
 ##      Author: Ferit Tunçer, ferit.tuncer@autistici.org
 
-version = 0.61
+version = 0.62
+##      Changes since 0.61
+##          no_parameter_message added
+##			fixed input format issue
+
+
+##      TODOS
+##          take token out of config
+##			http://stackoverflow.com/questions/8763451/how-to-handle-urllibs-timeout-in-python-3 sentence-by-sentence performance improvement
+
 
 #++ Configuration block - EDIT HERE
 tool = "pipelineFormal"
@@ -34,10 +43,13 @@ import contextlib
 import time
 import os.path
 import argparse
+import re
 
 invalid_token_message = ""
 invalid_param_message = ""
 invalid_tool_message = ""
+no_parameter_message = ""
+pipeline_encoding = 'UTF-8'
 
 #++ Utility functions
 def warning(*objs):
@@ -50,39 +62,43 @@ def conditional_info(to_be_printed):
 #--
 
 def request(params):
-    try:
-        result = urllib.request.urlopen(api_url, params)
-        readed_result = result.read().decode("UTF-8")
-        if readed_result == invalid_token_message:
-            sys.exit(invalid_token_message)
-        elif readed_result == invalid_tool_message:
-            sys.exit(invalid_tool_message)
-        elif readed_result == invalid_param_message:
-            sys.exit(invalid_param_message)
-        return readed_result
-    except KeyboardInterrupt:
-        f.close()
-        sys.exit("[FATAL]Terminated by keyboard interrupt.")
-    except:
-        f.close()
-        warning("{0}\nDid you configure the configuration part of the source code properly?".format(sys.exc_info()[1]))
-        print(invalid_param_message)
-        sys.exit("[FATAL]Failed to connect pipeline! Terminated.")
+	try:
+		result = urllib.request.urlopen(api_url, params)
+		readed_result = result.read().decode("UTF-8")
+		if readed_result == invalid_token_message:
+			sys.exit(invalid_token_message)
+		elif readed_result == invalid_tool_message:
+			sys.exit(invalid_tool_message)
+		elif readed_result == invalid_param_message:
+			sys.exit(invalid_param_message)
+		elif readed_result == no_parameter_message:
+			sys.exit(no_parameter_message)
+		return readed_result
+	except KeyboardInterrupt:
+		f.close()
+		sys.exit("[FATAL]Terminated by keyboard interrupt.")
+	except:
+		f.close()
+		warning("{0}\nDid you configure the configuration part of the source code properly?".format(sys.exc_info()[1]))
+		print(invalid_param_message)
+		sys.exit("[FATAL]Failed to connect pipeline! Terminated.")
 
 def fetchInvalidMessages():
-	dummy_params = urllib.parse.urlencode({'tool': tool, 'input': "dummy", 'token': "wrong_token"}).encode("UTF-8")
-	invalid_token_message = urllib.request.urlopen(api_url, dummy_params).read().decode("UTF-8")
-	dummy_params = urllib.parse.urlencode({'tool': "dummy", 'input': "dummy", 'token': token}).encode("UTF-8")
-	invalid_tool_message = urllib.request.urlopen(api_url, dummy_params).read().decode("UTF-8")
-	invalid_param_message = urllib.request.urlopen(api_url).read().decode("UTF-8")
+    dummy_params = urllib.parse.urlencode({'tool': tool, 'input': "", 'token': token}).encode("UTF-8")
+    no_parameter_message = urllib.request.urlopen(api_url, dummy_params).read().decode("UTF-8")
+    dummy_params = urllib.parse.urlencode({'tool': tool, 'input': "dummy", 'token': "wrong_token"}).encode("UTF-8")
+    invalid_token_message = urllib.request.urlopen(api_url, dummy_params).read().decode("UTF-8")
+    dummy_params = urllib.parse.urlencode({'tool': "dummy", 'input': "dummy", 'token': token}).encode("UTF-8")
+    invalid_tool_message = urllib.request.urlopen(api_url, dummy_params).read().decode("UTF-8")
+    invalid_param_message = urllib.request.urlopen(api_url).read().decode("UTF-8")
 
 def parseArgumentsAndGreet():
-	option_parser = argparse.ArgumentParser(description="ITU Turkish NLP Pipeline Caller v{0}".format(version))
-	option_parser.add_argument("filename", help="relative input filepath")
-	option_parser.add_argument('-s', '--seperate', dest="seperate", action="store_true", help="process sentence-by-sentence instead of batch processing")
-	option_parser.add_argument("-q", "--quiet", dest="quiet", action="store_true", help="no info during process")
-	print("{0}".format(option_parser.description))
-	return option_parser.parse_args()
+        option_parser = argparse.ArgumentParser(description="ITU Turkish NLP Pipeline Caller v{0}".format(version))
+        option_parser.add_argument("filename", help="relative input filepath")
+        option_parser.add_argument('-s', '--seperate', dest="seperate", action="store_true", help="process sentence-by-sentence instead of batch processing")
+        option_parser.add_argument("-q", "--quiet", dest="quiet", action="store_true", help="no info during process")
+        print("{0}".format(option_parser.description))
+        return option_parser.parse_args()
 
 
 args = parseArgumentsAndGreet()
@@ -114,10 +130,13 @@ except:
 full_text = ""
 g = open(args.filename)
 for line in g:
-    full_text += line
-print(full_text)
+	full_text += line
 
 sentences = full_text.split('.')
+sentence_count = len(sentences)
+
+if re.match("^\s*$", sentences[sentence_count-1]):
+	sentences.pop(sentence_count-1)
 
 start_time = time.time()
 
@@ -127,7 +146,7 @@ if args.seperate == 0:
     conditional_info("[INFO] Batch processing started!")
     params = urllib.parse.urlencode({'tool': tool, 'input': full_text, 'token': token}).encode("UTF-8")
     f.write("{0}\n".format(request(params)))
-    conditional_info("[DONE] It took {0} seconds to process all sentences".format(str(time.time()-start_time).split('.')[0]))
+    conditional_info("[DONE] It took {0} seconds to process {1} sentences".format(str(time.time()-start_time).split('.')[0], sentence_count))
 
 
 else:
@@ -135,7 +154,6 @@ else:
     for sentence in sentences:
         params = urllib.parse.urlencode({'tool': tool, 'input': sentence, 'token': token}).encode("UTF-8")
         f.write("{0}\n".format(request(params)))
-        sentence_count = len(sentences)
         conditional_info("[INFO] Processing {0}".format(sentence))
     conditional_info("[DONE] It took {0} seconds to process all {1} sentences.".format(str(time.time()-start_time).split('.')[0], sentence_count))
 
