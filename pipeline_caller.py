@@ -17,14 +17,7 @@
 
 author_copyright = "\nCopyright 2015 Ferit Tunçer ferit.tuncer@autistici.org"
 
-
-version = 0.67
-##      Changes since 0.66
-##			cleanup on exceptions
-##			file stream leaks on exceptions fixed
-
-##      TODOS
-##			http://stackoverflow.com/questions/8763451/how-to-handle-urllibs-timeout-in-python-3 sentence-by-sentence performance improvement
+version = 0.68
 
 import sys
 import urllib.request
@@ -121,7 +114,6 @@ def getOutputPath():
 		filepath = os.path.join(args.output_dir, "output{0}".format(str(time.time()).split('.')[0]))
 		if not os.path.exists(args.output_dir):
 			os.makedirs(args.output_dir)
-		#output_path = open(filepath, 'w', encoding=args.encoding)
 		conditional_info("[INFO] Output destination: .\{0}".format(filepath))
 		return filepath
 	except:
