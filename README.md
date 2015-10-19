@@ -1,7 +1,7 @@
 # ITU Turkish NLP Pipeline Caller
  A tool for using [ITU Turkish NLP Pipeline API](http://tools.nlp.itu.edu.tr/)
 
-For details of the pipeline, please check the pipeline page and the sources below
+For details of the pipeline, please check the pipeline page and the sources below.
 
 [Gülşen Eryiğit . ITU Turkish NLP Web Service
 In Proceedings of the Demonstrations at the 14th Conference
@@ -35,6 +35,8 @@ default is "pipeline_caller_output"
 Check DEFAULTS block in the source code if you need to change one of these:
 
 `api_url = "http://tools.nlp.itu.edu.tr/SimpleApi"` 
+
+`pipeline_encoding = 'UTF-8'`
 
 `token_path = "pipeline.token"`
 

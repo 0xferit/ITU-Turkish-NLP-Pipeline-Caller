@@ -18,11 +18,9 @@
 author_copyright = "\nCopyright 2015 Ferit Tunçer ferit.tuncer@autistici.org"
 
 
-version = 0.65
-##      Changes since 0.64
-##			command line I/O encoding option
-##			some cleanup        
-##			command line output dir option
+version = 0.66
+##      Changes since 0.65
+##			a little cleanup on defaults
 
 ##      TODOS
 ##			http://stackoverflow.com/questions/8763451/how-to-handle-urllibs-timeout-in-python-3 sentence-by-sentence performance improvement
@@ -42,6 +40,7 @@ import locale
 token_path = "pipeline.token"
 api_url = "http://tools.nlp.itu.edu.tr/SimpleApi"
 default_encoding = locale.getpreferredencoding(False)
+pipeline_encoding = 'UTF-8'
 default_output_dir = "pipeline_caller_output"
 #-- DEFAULTS
 
@@ -49,7 +48,6 @@ invalid_token_message = ""
 invalid_param_message = ""
 invalid_tool_message = ""
 no_parameter_message = ""
-pipeline_encoding = 'UTF-8'
 
 #++ Utility functions
 def warning(*objs):
