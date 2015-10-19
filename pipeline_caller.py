@@ -1,7 +1,7 @@
 # -*- coding: windows-1254 -*-
 
 ##      ITU TURKISH NLP PIPELINE CALLER
-##      Copyright (C) 2015  Ferit Tunçer
+##      Copyright 2015 Ferit Tunçer
 ##
 ##      This program is free software; you can redistribute it and/or
 ##  modify it under the terms of the GNU General Public License version 2
@@ -14,28 +14,19 @@
 ##
 ##      You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-##
 
-author = "Ferit Tunçer, ferit.tuncer@autistici.org"
+author_copyright = "\nCopyright 2015 Ferit Tunçer ferit.tuncer@autistici.org"
 
 
-version = 0.64
-##      Changes since 0.63
-##			tool provided with command line argument now, example: -t PipelineNoisy, default= PipelineFormal
-##			encoding code notice on terminal
-
+version = 0.65
+##      Changes since 0.64
+##			command line I/O encoding option
+##			some cleanup        
+##			command line output dir option
 
 ##      TODOS
 ##			http://stackoverflow.com/questions/8763451/how-to-handle-urllibs-timeout-in-python-3 sentence-by-sentence performance improvement
 ##			cleanup on exceptions
-
-
-#++ Configuration block - EDIT HERE
-token_path = "pipeline.token"
-api_url = "http://tools.nlp.itu.edu.tr/SimpleApi"
-output_dir = "script_output"
-encoding_code = "WINDOWS-1254"
-#-- Configuration block
 
 import sys
 import urllib.request
@@ -45,6 +36,14 @@ import time
 import os.path
 import argparse
 import re
+import locale
+
+#++ DEFAULTS
+token_path = "pipeline.token"
+api_url = "http://tools.nlp.itu.edu.tr/SimpleApi"
+default_encoding = locale.getpreferredencoding(False)
+default_output_dir = "pipeline_caller_output"
+#-- DEFAULTS
 
 invalid_token_message = ""
 invalid_param_message = ""
@@ -83,29 +82,32 @@ def request(params):
 		sys.exit("[FATAL]Failed to connect pipeline! Terminated.")
 
 def fetchInvalidMessages():
-	dummy_params = urllib.parse.urlencode({'tool': args.tool, 'input': "", 'token': token}).encode("UTF-8")
+	dummy_params = urllib.parse.urlencode({'tool': args.tool, 'input': "", 'token': token}).encode(pipeline_encoding)
 	no_parameter_message = urllib.request.urlopen(api_url, dummy_params).read().decode("UTF-8")
-	dummy_params = urllib.parse.urlencode({'tool': args.tool, 'input': "dummy", 'token': "wrong_token"}).encode("UTF-8")
-	invalid_token_message = urllib.request.urlopen(api_url, dummy_params).read().decode("UTF-8")
-	dummy_params = urllib.parse.urlencode({'tool': "dummy", 'input': "dummy", 'token': token}).encode("UTF-8")
-	invalid_tool_message = urllib.request.urlopen(api_url, dummy_params).read().decode("UTF-8")
-	invalid_param_message = urllib.request.urlopen(api_url).read().decode("UTF-8")
+	dummy_params = urllib.parse.urlencode({'tool': args.tool, 'input': "dummy", 'token': "wrong_token"}).encode(pipeline_encoding)
+	invalid_token_message = urllib.request.urlopen(api_url, dummy_params).read().decode(pipeline_encoding)
+	dummy_params = urllib.parse.urlencode({'tool': "dummy", 'input': "dummy", 'token': token}).encode(pipeline_encoding)
+	invalid_tool_message = urllib.request.urlopen(api_url, dummy_params).read().decode(pipeline_encoding)
+	invalid_param_message = urllib.request.urlopen(api_url).read().decode(pipeline_encoding)
 	return no_parameter_message, invalid_token_message, invalid_tool_message, invalid_param_message
 
 def parseArgumentsAndGreet():
-		option_parser = argparse.ArgumentParser(
-		description="ITU Turkish NLP Pipeline Caller v{}".format(version),
-		epilog="TOOLS: ner, morphanalyzer, isturkish,  morphgenerator, tokenizer, normalize, deasciifier, Vowelizer, DepParserFormal, DepParserNoisy, spellcheck, disambiguator, pipelineFormal, pipelineNoisy")
-		option_parser.add_argument("filename", help="relative input filepath")
-		option_parser.add_argument("-t", "--tool", metavar="T", dest="tool", default="pipelineFormal", help="pipeline tool name, pipelineFormal by default")
-		option_parser.add_argument('-s', '--seperate', dest="seperate", action="store_true", help="process sentence-by-sentence instead of batch processing")
-		option_parser.add_argument("-q", "--quiet", dest="quiet", action="store_true", help="no info during process")
-		print("{0}".format(option_parser.description))
-		return option_parser.parse_args()
+		arg_parser = argparse.ArgumentParser(
+		description="ITU Turkish NLP Pipeline Caller v{}{}".format(version, author_copyright),
+		epilog="TOOLS: ner, morphanalyzer, isturkish,  morphgenerator, tokenizer, normalize, deasciifier, Vowelizer, DepParserFormal, DepParserNoisy, spellcheck, disambiguator, pipelineFormal, pipelineNoisy",
+		add_help=True)
+		arg_parser.add_argument("filename", help="relative input filepath")
+		arg_parser.add_argument('-s', '--seperate', dest="seperate", action="store_true", help="process sentence-by-sentence instead of batch processing")
+		arg_parser.add_argument("-q", "--quiet", dest="quiet", action="store_true", help="no info during process")
+		arg_parser.add_argument("-t", "--tool", metavar="T", dest="tool", default="pipelineFormal", help="pipeline tool name, \"pipelineFormal\" by default")
+		arg_parser.add_argument("-e", "--encoding", dest="encoding", metavar="E", default=default_encoding, help="force I/O to use given encoding, instead of default locale")
+		arg_parser.add_argument("-o", "--output", metavar="O", dest="output_dir", default=default_output_dir, help="change output directory, \"pipeline_caller_output\" by default")
+		#print("{0}".format(arg_parser.description))
+		return arg_parser.parse_args()
 
 def readInput(path):
 	try:
-		input_file = open(path)
+		input_file = open(path, encoding=args.encoding)
 		full_text = ""
 		for line in input_file:
 			full_text += line
@@ -115,15 +117,14 @@ def readInput(path):
 			sentences.pop(sentence_count-1)
 		return full_text, sentences, sentence_count
 	except:
-		pass
+		warning("{0}".format(sys.exc_info()[1]))
 
 def getOutputPath():
 	try:
-		#filepath = ('{0}\output{1}').format(output_dir, str(time.time()).split('.')[0])
-		filepath = os.path.join(output_dir, "output{0}".format(str(time.time()).split('.')[0]))
-		if not os.path.exists(output_dir):
-			os.makedirs(output_dir)
-		output_path = open(filepath, 'w')
+		filepath = os.path.join(args.output_dir, "output{0}".format(str(time.time()).split('.')[0]))
+		if not os.path.exists(args.output_dir):
+			os.makedirs(args.output_dir)
+		output_path = open(filepath, 'w', encoding=args.encoding)
 		conditional_info("[INFO] Writing destination: {0}".format(filepath))
 		return output_path
 	except:
@@ -140,13 +141,13 @@ def readToken():
 def process():
 	if args.seperate == 0:
 		conditional_info("[INFO] Batch processing started!")
-		params = urllib.parse.urlencode({'tool': args.tool, 'input': full_text, 'token': token}).encode("UTF-8")
+		params = urllib.parse.urlencode({'tool': args.tool, 'input': full_text, 'token': token}).encode(pipeline_encoding)
 		output_path.write("{0}\n".format(request(params)))
 		print("[DONE] It took {0} seconds to process {1} sentences".format(str(time.time()-start_time).split('.')[0], sentence_count))
 	else:
 		conditional_info("[INFO] Sentence-by-sentence processing started!")
 		for sentence in sentences:
-			params = urllib.parse.urlencode({'tool': args.tool, 'input': sentence, 'token': token}).encode("UTF-8")
+			params = urllib.parse.urlencode({'tool': args.tool, 'input': sentence, 'token': token}).encode(pipeline_encoding)
 			output_path.write("{0}\n".format(request(params)))
 			conditional_info("[INFO] Processing {0}".format(sentence))
 		print("[DONE] It took {0} seconds to process all {1} sentences.".format(str(time.time()-start_time).split('.')[0], sentence_count))
@@ -162,7 +163,7 @@ except:
 	warning("{0}".format(sys.exc_info()[1]))
 	output_path.close()
 	sys.exit("[FATAL] I\O Exception")
-conditional_info("[INFO] File I/O encoding is {}".format(encoding_code))
+conditional_info("[INFO] File I/O encoding is {}".format(args.encoding))
 no_parameter_message, invalid_token_message, invalid_tool_message, invalid_param_message = fetchInvalidMessages()
 start_time = time.time()
 conditional_info("[INFO] Using {0} tool".format(args.tool))
