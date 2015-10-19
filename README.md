@@ -1,8 +1,9 @@
 # ITU Turkish NLP Pipeline Caller
  A tool for using [ITU Turkish NLP Pipeline API](http://tools.nlp.itu.edu.tr/)
 
-[For details of the pipeline, please check the pipeline page and the sources below
-Gülşen Eryiğit . ITU Turkish NLP Web Service
+For details of the pipeline, please check the pipeline page and the sources below
+
+[Gülşen Eryiğit . ITU Turkish NLP Web Service
 In Proceedings of the Demonstrations at the 14th Conference
 of the European Chapter of the Association for Computational Linguistics
 (EACL 2014). Gothenburg, Sweden, April 2014.](http://web.itu.edu.tr/gulsenc/papers/itunlp.pdf)
