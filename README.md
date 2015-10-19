@@ -1,5 +1,3 @@
-Under construction...
-
 # ITU Turkish NLP Pipeline Caller
  A tool for using ITU Turkish NLP Pipeline API <http://tools.nlp.itu.edu.tr/>
 
