@@ -18,13 +18,13 @@
 author_copyright = "\nCopyright 2015 Ferit Tunçer ferit.tuncer@autistici.org"
 
 
-version = 0.66
-##      Changes since 0.65
-##			a little cleanup on defaults
+version = 0.67
+##      Changes since 0.66
+##			cleanup on exceptions
+##			file stream leaks on exceptions fixed
 
 ##      TODOS
 ##			http://stackoverflow.com/questions/8763451/how-to-handle-urllibs-timeout-in-python-3 sentence-by-sentence performance improvement
-##			cleanup on exceptions
 
 import sys
 import urllib.request
@@ -49,9 +49,10 @@ invalid_param_message = ""
 invalid_tool_message = ""
 no_parameter_message = ""
 
-#++ Utility functions
+
+#++ Utility Functions
 def warning(*objs):
-    print("[ERROR]:", *objs, file=sys.stderr)
+    print(*objs, file=sys.stderr)
 
 def conditional_info(to_be_printed):
     #
@@ -59,6 +60,7 @@ def conditional_info(to_be_printed):
         print(to_be_printed)
 #--
 
+#-- Functions
 def request(params):
 	try:
 		result = urllib.request.urlopen(api_url, params)
@@ -75,9 +77,7 @@ def request(params):
 	except KeyboardInterrupt:
 		sys.exit("[FATAL]Terminated by keyboard interrupt.")
 	except:
-		warning("{0}\nDid you configure the configuration part of the source code properly?".format(sys.exc_info()[1]))
-		print(invalid_param_message)
-		sys.exit("[FATAL]Failed to connect pipeline! Terminated.")
+		raise
 
 def fetchInvalidMessages():
 	dummy_params = urllib.parse.urlencode({'tool': args.tool, 'input': "", 'token': token}).encode(pipeline_encoding)
@@ -89,7 +89,7 @@ def fetchInvalidMessages():
 	invalid_param_message = urllib.request.urlopen(api_url).read().decode(pipeline_encoding)
 	return no_parameter_message, invalid_token_message, invalid_tool_message, invalid_param_message
 
-def parseArgumentsAndGreet():
+def parseArguments():
 		arg_parser = argparse.ArgumentParser(
 		description="ITU Turkish NLP Pipeline Caller v{}{}".format(version, author_copyright),
 		epilog="TOOLS: ner, morphanalyzer, isturkish,  morphgenerator, tokenizer, normalize, deasciifier, Vowelizer, DepParserFormal, DepParserNoisy, spellcheck, disambiguator, pipelineFormal, pipelineNoisy",
@@ -100,33 +100,32 @@ def parseArgumentsAndGreet():
 		arg_parser.add_argument("-t", "--tool", metavar="T", dest="tool", default="pipelineFormal", help="pipeline tool name, \"pipelineFormal\" by default")
 		arg_parser.add_argument("-e", "--encoding", dest="encoding", metavar="E", default=default_encoding, help="force I/O to use given encoding, instead of default locale")
 		arg_parser.add_argument("-o", "--output", metavar="O", dest="output_dir", default=default_output_dir, help="change output directory, \"pipeline_caller_output\" by default")
-		#print("{0}".format(arg_parser.description))
 		return arg_parser.parse_args()
 
 def readInput(path):
 	try:
-		input_file = open(path, encoding=args.encoding)
-		full_text = ""
-		for line in input_file:
-			full_text += line
+		with open(path, encoding=args.encoding) as input_file:
+			full_text = ""
+			for line in input_file:
+				full_text += line
 		sentences = full_text.split('.')
 		sentence_count = len(sentences)
 		if re.match("^\s*$", sentences[sentence_count-1]):
 			sentences.pop(sentence_count-1)
 		return full_text, sentences, sentence_count
 	except:
-		warning("{0}".format(sys.exc_info()[1]))
+		raise
 
 def getOutputPath():
 	try:
 		filepath = os.path.join(args.output_dir, "output{0}".format(str(time.time()).split('.')[0]))
 		if not os.path.exists(args.output_dir):
 			os.makedirs(args.output_dir)
-		output_path = open(filepath, 'w', encoding=args.encoding)
-		conditional_info("[INFO] Writing destination: {0}".format(filepath))
-		return output_path
+		#output_path = open(filepath, 'w', encoding=args.encoding)
+		conditional_info("[INFO] Output destination: .\{0}".format(filepath))
+		return filepath
 	except:
-		pass
+		raise
 		
 def readToken():
 	try:
@@ -134,37 +133,37 @@ def readToken():
 		token = token_file.readline()
 		return token
 	except:
-		pass
+		raise
 		
 def process():
-	if args.seperate == 0:
-		conditional_info("[INFO] Batch processing started!")
-		params = urllib.parse.urlencode({'tool': args.tool, 'input': full_text, 'token': token}).encode(pipeline_encoding)
-		output_path.write("{0}\n".format(request(params)))
-		print("[DONE] It took {0} seconds to process {1} sentences".format(str(time.time()-start_time).split('.')[0], sentence_count))
-	else:
-		conditional_info("[INFO] Sentence-by-sentence processing started!")
-		for sentence in sentences:
-			params = urllib.parse.urlencode({'tool': args.tool, 'input': sentence, 'token': token}).encode(pipeline_encoding)
-			output_path.write("{0}\n".format(request(params)))
-			conditional_info("[INFO] Processing {0}".format(sentence))
-		print("[DONE] It took {0} seconds to process all {1} sentences.".format(str(time.time()-start_time).split('.')[0], sentence_count))
+	with open(output_path, 'w', encoding=args.encoding) as output_file:
+		if args.seperate == 0:
+			conditional_info("[INFO] Processing type: Batch")
+			params = urllib.parse.urlencode({'tool': args.tool, 'input': full_text, 'token': token}).encode(pipeline_encoding)
+			output_file.write("{0}\n".format(request(params)))
+			print("[DONE] It took {0} seconds to process {1} sentences".format(str(time.time()-start_time).split('.')[0], sentence_count))
+		else:
+			conditional_info("[INFO] Processing type: Sentence-by-sentence")
+			for sentence in sentences:
+				params = urllib.parse.urlencode({'tool': args.tool, 'input': sentence, 'token': token}).encode(pipeline_encoding)
+				output_file.write("{0}\n".format(request(params)))
+				conditional_info("[INFO] Processing {0}".format(sentence))
+			print("[DONE] It took {0} seconds to process all {1} sentences.".format(str(time.time()-start_time).split('.')[0], sentence_count))
+#-- Functions
 
-
-
-args = parseArgumentsAndGreet()
+#++ Main Block
+args = parseArguments()
 try:
 	full_text, sentences, sentence_count = readInput(args.filename)
 	output_path = getOutputPath()
 	token = readToken()
+	conditional_info("[INFO] File I/O encoding: {}".format(args.encoding))
+	no_parameter_message, invalid_token_message, invalid_tool_message, invalid_param_message = fetchInvalidMessages()
+	start_time = time.time()
+	conditional_info("[INFO] Pipeline tool: {}".format(args.tool))
+	process()
 except:
 	warning("{0}".format(sys.exc_info()[1]))
-	output_path.close()
-	sys.exit("[FATAL] I\O Exception")
-conditional_info("[INFO] File I/O encoding is {}".format(args.encoding))
-no_parameter_message, invalid_token_message, invalid_tool_message, invalid_param_message = fetchInvalidMessages()
-start_time = time.time()
-conditional_info("[INFO] Using {0} tool".format(args.tool))
-process()
+	sys.exit("[FATAL] Terminating.")
 
-output_path.close()
+#-- Main Block
