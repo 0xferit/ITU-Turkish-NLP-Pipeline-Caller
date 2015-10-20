@@ -17,7 +17,7 @@
 
 author_copyright = "\nCopyright 2015 Ferit Tunçer ferit.tuncer@autistici.org"
 
-version = 0.69
+version = 0.70
 
 import sys
 import urllib.request
@@ -59,7 +59,7 @@ def conditional_info(to_be_printed):
 def request(params):
 	try:
 		result = urllib.request.urlopen(api_url, params)	
-		readed_result = result.read().decode("UTF-8")
+		readed_result = result.read().decode(pipeline_encoding)
 		if readed_result == invalid_token_message:
 			sys.exit(invalid_token_message)
 		elif readed_result == invalid_tool_message:
@@ -115,10 +115,10 @@ def readInput(path):
 
 def getOutputPath():
 	try:
-		filepath = os.path.join(args.output_dir, "output{0}".format(str(time.time()).split('.')[0]))
 		if not os.path.exists(args.output_dir):
-			os.makedirs(args.output_dir)
-		conditional_info("[INFO] Output destination: .\{0}".format(filepath))
+			os.makedirs(args.output_dir)	
+		filepath = os.path.join(args.output_dir, "output{0}".format(str(time.time()).split('.')[0]))
+		conditional_info("[INFO] Output destination: .{}".format(filepath))
 		return filepath
 	except:
 		raise
