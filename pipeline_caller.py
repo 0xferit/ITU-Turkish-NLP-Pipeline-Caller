@@ -17,7 +17,7 @@
 
 author_copyright = "\nCopyright 2015 Ferit Tunçer ferit.tuncer@autistici.org"
 
-version = 0.68
+version = 0.69
 
 import sys
 import urllib.request
@@ -29,12 +29,14 @@ import argparse
 import re
 import locale
 
+
 #++ DEFAULTS
 token_path = "pipeline.token"
 api_url = "http://tools.nlp.itu.edu.tr/SimpleApi"
 default_encoding = locale.getpreferredencoding(False)
 pipeline_encoding = 'UTF-8'
 default_output_dir = "pipeline_caller_output"
+default_seperator_class = "[\.\?:;!]"
 #-- DEFAULTS
 
 invalid_token_message = ""
@@ -56,7 +58,7 @@ def conditional_info(to_be_printed):
 #-- Functions
 def request(params):
 	try:
-		result = urllib.request.urlopen(api_url, params)
+		result = urllib.request.urlopen(api_url, params)	
 		readed_result = result.read().decode("UTF-8")
 		if readed_result == invalid_token_message:
 			sys.exit(invalid_token_message)
@@ -69,6 +71,7 @@ def request(params):
 		return readed_result
 	except KeyboardInterrupt:
 		sys.exit("[FATAL]Terminated by keyboard interrupt.")
+		warning("{0}1".format(sys.exc_info()))
 	except:
 		raise
 
@@ -101,7 +104,8 @@ def readInput(path):
 			full_text = ""
 			for line in input_file:
 				full_text += line
-		sentences = full_text.split('.')
+		r = re.compile(r'(?<=(?:{}))\s+'.format(default_seperator_class)) 
+		sentences = r.split(full_text)
 		sentence_count = len(sentences)
 		if re.match("^\s*$", sentences[sentence_count-1]):
 			sentences.pop(sentence_count-1)
@@ -131,13 +135,17 @@ def process():
 	with open(output_path, 'w', encoding=args.encoding) as output_file:
 		if args.seperate == 0:
 			conditional_info("[INFO] Processing type: Batch")
+			
 			params = urllib.parse.urlencode({'tool': args.tool, 'input': full_text, 'token': token}).encode(pipeline_encoding)
+			
 			output_file.write("{0}\n".format(request(params)))
 			print("[DONE] It took {0} seconds to process {1} sentences".format(str(time.time()-start_time).split('.')[0], sentence_count))
 		else:
 			conditional_info("[INFO] Processing type: Sentence-by-sentence")
 			for sentence in sentences:
+			
 				params = urllib.parse.urlencode({'tool': args.tool, 'input': sentence, 'token': token}).encode(pipeline_encoding)
+				
 				output_file.write("{0}\n".format(request(params)))
 				conditional_info("[INFO] Processing {0}".format(sentence))
 			print("[DONE] It took {0} seconds to process all {1} sentences.".format(str(time.time()-start_time).split('.')[0], sentence_count))
@@ -155,7 +163,7 @@ try:
 	conditional_info("[INFO] Pipeline tool: {}".format(args.tool))
 	process()
 except:
-	warning("{0}".format(sys.exc_info()[1]))
+	warning("{0}".format(sys.exc_info()))
 	sys.exit("[FATAL] Terminating.")
 
 #-- Main Block
