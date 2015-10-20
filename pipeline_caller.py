@@ -17,7 +17,7 @@
 
 author_copyright = "\nCopyright 2015 Ferit Tunçer ferit.tuncer@autistici.org"
 
-version = 0.70
+version = 0.71
 
 import sys
 import urllib.request
@@ -118,7 +118,7 @@ def getOutputPath():
 		if not os.path.exists(args.output_dir):
 			os.makedirs(args.output_dir)	
 		filepath = os.path.join(args.output_dir, "output{0}".format(str(time.time()).split('.')[0]))
-		conditional_info("[INFO] Output destination: .{}".format(filepath))
+		conditional_info("[INFO] Output destination: .{}{}".format(os.sep, filepath))
 		return filepath
 	except:
 		raise
