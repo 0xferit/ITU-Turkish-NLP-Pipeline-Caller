@@ -16,7 +16,7 @@ To be able to use the pipeline, you need an authentication token(details on API 
 The tool reads the token from `pipeline.token` file(under the same directory with the tool) by default.
 
 `pipeline.caller.py filename`
-reads input file <filename>, prints the output under `./script_output/output<%system_time>`
+reads input file <filename>, prints the output under `./pipeline_caller_output/output<%system_time>`
 
 You can select the pipeline tool by using -t option
 `pipeline.caller.py filename -t PipelineNoisy`
