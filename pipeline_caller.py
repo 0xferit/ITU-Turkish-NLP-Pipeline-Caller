@@ -17,7 +17,7 @@
 
 author_copyright = "\nCopyright 2015 Ferit Tunçer ferit.tuncer@autistici.org"
 
-version = 0.71
+version = 0.72
 
 import sys
 import urllib.request
@@ -162,6 +162,8 @@ try:
 	start_time = time.time()
 	conditional_info("[INFO] Pipeline tool: {}".format(args.tool))
 	process()
+except KeyboardInterrupt:
+	conditional_info("[QUIT] Interrupted by user.")
 except:
 	warning("{0}".format(sys.exc_info()))
 	sys.exit("[FATAL] Terminating.")
