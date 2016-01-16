@@ -1,7 +1,7 @@
 # -*- coding: windows-1254 -*-
 
 ##      ITU TURKISH NLP PIPELINE CALLER
-##      Copyright 2015 Ferit Tunçer
+##      Copyright 2015 Ferit Tunï¿½er
 ##
 ##      This program is free software; you can redistribute it and/or
 ##  modify it under the terms of the GNU General Public License version 2
@@ -15,7 +15,7 @@
 ##      You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-author_copyright = "\nCopyright 2015 Ferit Tunçer ferit.tuncer@autistici.org"
+author_copyright = "\nCopyright 2015 Ferit Tunï¿½er ferit.tuncer@autistici.org"
 
 version = 0.72
 
@@ -36,7 +36,7 @@ api_url = "http://tools.nlp.itu.edu.tr/SimpleApi"
 default_encoding = locale.getpreferredencoding(False)
 pipeline_encoding = 'UTF-8'
 default_output_dir = "pipeline_caller_output"
-default_seperator_class = "[\.\?:;!]"
+default_separator_class = "[\.\?:;!]"
 #-- DEFAULTS
 
 invalid_token_message = ""
@@ -58,7 +58,7 @@ def conditional_info(to_be_printed):
 #-- Functions
 def request(params):
 	try:
-		result = urllib.request.urlopen(api_url, params)	
+		result = urllib.request.urlopen(api_url, params)
 		readed_result = result.read().decode(pipeline_encoding)
 		if readed_result == invalid_token_message:
 			sys.exit(invalid_token_message)
@@ -91,7 +91,7 @@ def parseArguments():
 		epilog="TOOLS: ner, morphanalyzer, isturkish,  morphgenerator, tokenizer, normalize, deasciifier, Vowelizer, DepParserFormal, DepParserNoisy, spellcheck, disambiguator, pipelineFormal, pipelineNoisy",
 		add_help=True)
 		arg_parser.add_argument("filename", help="relative input filepath")
-		arg_parser.add_argument('-s', '--seperate', dest="seperate", action="store_true", help="process sentence-by-sentence instead of batch processing")
+		arg_parser.add_argument('-s', '--separate', dest="separate", action="store_true", help="process sentence-by-sentence instead of batch processing")
 		arg_parser.add_argument("-q", "--quiet", dest="quiet", action="store_true", help="no info during process")
 		arg_parser.add_argument("-t", "--tool", metavar="T", dest="tool", default="pipelineFormal", help="pipeline tool name, \"pipelineFormal\" by default")
 		arg_parser.add_argument("-e", "--encoding", dest="encoding", metavar="E", default=default_encoding, help="force I/O to use given encoding, instead of default locale")
@@ -104,7 +104,7 @@ def readInput(path):
 			full_text = ""
 			for line in input_file:
 				full_text += line
-		r = re.compile(r'(?<=(?:{}))\s+'.format(default_seperator_class)) 
+		r = re.compile(r'(?<=(?:{}))\s+'.format(default_separator_class)) 
 		sentences = r.split(full_text)
 		sentence_count = len(sentences)
 		if re.match("^\s*$", sentences[sentence_count-1]):
@@ -116,13 +116,13 @@ def readInput(path):
 def getOutputPath():
 	try:
 		if not os.path.exists(args.output_dir):
-			os.makedirs(args.output_dir)	
+			os.makedirs(args.output_dir)
 		filepath = os.path.join(args.output_dir, "output{0}".format(str(time.time()).split('.')[0]))
 		conditional_info("[INFO] Output destination: .{}{}".format(os.sep, filepath))
 		return filepath
 	except:
 		raise
-		
+
 def readToken():
 	try:
 		token_file = open(token_path)
@@ -130,22 +130,22 @@ def readToken():
 		return token
 	except:
 		raise
-		
+
 def process():
 	with open(output_path, 'w', encoding=args.encoding) as output_file:
-		if args.seperate == 0:
+		if args.separate == 0:
 			conditional_info("[INFO] Processing type: Batch")
-			
+
 			params = urllib.parse.urlencode({'tool': args.tool, 'input': full_text, 'token': token}).encode(pipeline_encoding)
-			
+
 			output_file.write("{0}\n".format(request(params)))
 			print("[DONE] It took {0} seconds to process {1} sentences".format(str(time.time()-start_time).split('.')[0], sentence_count))
 		else:
 			conditional_info("[INFO] Processing type: Sentence-by-sentence")
 			for sentence in sentences:
-			
+
 				params = urllib.parse.urlencode({'tool': args.tool, 'input': sentence, 'token': token}).encode(pipeline_encoding)
-				
+
 				output_file.write("{0}\n".format(request(params)))
 				conditional_info("[INFO] Processing {0}".format(sentence))
 			print("[DONE] It took {0} seconds to process all {1} sentences.".format(str(time.time()-start_time).split('.')[0], sentence_count))
