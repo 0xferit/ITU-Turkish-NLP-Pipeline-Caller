@@ -1,7 +1,7 @@
 # -*- coding: windows-1254 -*-
 
 ##      ITU TURKISH NLP PIPELINE CALLER
-##      Copyright 2015 Ferit Tun�er
+##      Copyright 2015 Ferit Tunçer
 ##
 ##      This program is free software; you can redistribute it and/or
 ##  modify it under the terms of the GNU General Public License version 2
@@ -15,9 +15,9 @@
 ##      You should have received a copy of the GNU General Public License
 ##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-author_copyright = "\nCopyright 2015 Ferit Tun�er ferit.tuncer@autistici.org"
+author_copyright = "\nCopyright 2015 Ferit Tunçer ferit.tuncer@autistici.org"
 
-version = 0.72
+version = 0.73
 
 import sys
 import urllib.request
@@ -93,7 +93,7 @@ def parseArguments():
 		arg_parser.add_argument("filename", help="relative input filepath")
 		arg_parser.add_argument('-s', '--separate', dest="separate", action="store_true", help="process sentence-by-sentence instead of batch processing")
 		arg_parser.add_argument("-q", "--quiet", dest="quiet", action="store_true", help="no info during process")
-		arg_parser.add_argument("-t", "--tool", metavar="T", dest="tool", default="pipelineFormal", help="pipeline tool name, \"pipelineFormal\" by default")
+		arg_parser.add_argument("-t", "--tool", metavar="T", dest="tool", default="pipelineNoisy", help="pipeline tool name, \"pipelineNoisy\" by default")
 		arg_parser.add_argument("-e", "--encoding", dest="encoding", metavar="E", default=default_encoding, help="force I/O to use given encoding, instead of default locale")
 		arg_parser.add_argument("-o", "--output", metavar="O", dest="output_dir", default=default_output_dir, help="change output directory, \"pipeline_caller_output\" by default")
 		return arg_parser.parse_args()
