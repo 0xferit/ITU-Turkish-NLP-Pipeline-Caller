@@ -60,3 +60,9 @@ target/
 
 #Ipython Notebook
 .ipynb_checkpoints
+
+#Output Files
+pipeline_caller_output
+
+#Input Files
+*.txt
