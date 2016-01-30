@@ -1,5 +1,5 @@
 # ITU Turkish NLP Pipeline Caller
- A tool for using [ITU Turkish NLP Pipeline API](http://tools.nlp.itu.edu.tr/)
+ A command-line tool for using [ITU Turkish NLP Pipeline API](http://tools.nlp.itu.edu.tr/)
 
 For details of the pipeline, please check the pipeline page and the sources below.
 
