@@ -19,8 +19,8 @@ The tool reads the token from `pipeline.token` file(under the same directory wit
 reads input file <filename>, prints the output under `./pipeline_caller_output/output<%system_time>`
 
 You can select the pipeline tool by using -t option
-`pipeline.caller.py filename -t PipelineNoisy`
-default is "PipelineFormal"
+`pipeline.caller.py filename -t pipelineFoisy`
+default is "pipelineNoisy"
 
 You can force the encoding for I/O by using -e option
 `pipeline.caller.py filename -e UTF-8`
