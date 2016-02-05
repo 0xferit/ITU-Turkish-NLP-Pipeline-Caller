@@ -1,5 +1,7 @@
 # ITU Turkish NLP Pipeline Caller
  A command-line tool for using [ITU Turkish NLP Pipeline API](http://tools.nlp.itu.edu.tr/)
+ 
+[![Build Status](https://travis-ci.org/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller.svg?branch=master)](https://travis-ci.org/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller)
 
 For details of the pipeline, please check the pipeline page and the sources below.
 
