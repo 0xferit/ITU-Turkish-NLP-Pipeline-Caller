@@ -17,7 +17,7 @@
 
 author_copyright = "\nCopyright 2015 Ferit Tunçer ferit.tuncer@autistici.org"
 
-version = 0.75
+version = 0.76
 
 import sys
 import urllib.request
@@ -175,6 +175,12 @@ def main():
 		sys.exit("[FATAL] Terminating.")
 
 #-- Main Block
+
+def tokenTest():
+	return 1
+
+def tokenTest2():
+	return 2
 
 if __name__ == '__main__':
 	args = parseArguments()
