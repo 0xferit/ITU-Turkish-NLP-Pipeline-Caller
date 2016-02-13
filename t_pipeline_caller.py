@@ -10,7 +10,7 @@ class TestPlusOne(unittest.TestCase):
         self.assertEquals(pipeline_caller.tokenTest(), 1)
 
     def test_main_returns_zero_on_success2(self):
-        self.assertEquals(pipeline_caller.tokenTest2(), 1)
+        self.assertEquals(pipeline_caller.tokenTest2(), 2)
 
     def test_general(self):
 	assert_not_equal(pipeline_caller.general_test(), "Invalid token")
