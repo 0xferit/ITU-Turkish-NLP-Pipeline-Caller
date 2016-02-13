@@ -13,8 +13,8 @@ class TestPlusOne(unittest.TestCase):
 	def test_main_returns_zero_on_success2(self):
 		self.assertEquals(pipeline_caller.tokenTest2(), 2)
 
-	def test_general(self):
-		nose.tools.ok_(pipeline_caller.general_test() != "Invalid token")
+	#def test_general(self):
+		#nose.tools.ok_(pipeline_caller.general_test() != "Invalid token")
 
 if __name__ == '__main__':
     unittest.main()
