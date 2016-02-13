@@ -2,7 +2,7 @@
 
 import pipeline_caller
 import unittest
-from nose.tools
+import nose.tools
 
 
 class TestPlusOne(unittest.TestCase):
