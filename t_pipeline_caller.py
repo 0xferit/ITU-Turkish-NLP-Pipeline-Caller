@@ -2,6 +2,7 @@
 
 import pipeline_caller
 import unittest
+from nose.tools import assert_not_equal
 
 
 class TestPlusOne(unittest.TestCase):
