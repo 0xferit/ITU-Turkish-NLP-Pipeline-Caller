@@ -10,7 +10,7 @@ class TestPlusOne(unittest.TestCase):
         self.assertEquals(pipeline_caller.tokenTest(), 1)
 
     def test_main_returns_zero_on_success(self):
-        self.assertEquals(pipeline_caller.tokenTest2(), 1)
+        self.assertEquals(pipeline_caller.tokenTest2(), 2)
 
 if __name__ == '__main__':
     unittest.main()
