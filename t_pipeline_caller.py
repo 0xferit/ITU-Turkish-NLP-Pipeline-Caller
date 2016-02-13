@@ -2,7 +2,7 @@
 
 import pipeline_caller
 import unittest
-from nose.tools import assert_not_equal
+from nose.tools
 
 
 class TestPlusOne(unittest.TestCase):
@@ -14,7 +14,7 @@ class TestPlusOne(unittest.TestCase):
 		self.assertEquals(pipeline_caller.tokenTest2(), 2)
 
 	def test_general(self):
-		assert_not_equal(pipeline_caller.general_test(), "Invalid token")
+		ok_(pipeline_caller.general_test() != "Invalid token")
 
 if __name__ == '__main__':
     unittest.main()
