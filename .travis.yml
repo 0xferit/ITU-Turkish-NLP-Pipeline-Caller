@@ -4,7 +4,5 @@ python:
   - "3.3"
   - "3.4"
   - "3.5"
-  - "3.5-dev" # 3.5 development branch
-  - "nightly" # currently points to 3.6-dev
 # command to run tests
-script: nosetests
+script: nosetests -v t_pipeline_caller.py
