@@ -14,7 +14,7 @@ class TestPlusOne(unittest.TestCase):
 		self.assertEquals(pipeline_caller.tokenTest2(), 2)
 
 	def test_general(self):
-		ok_(pipeline_caller.general_test() != "Invalid token")
+		nose.tools.ok_(pipeline_caller.general_test() != "Invalid token")
 
 if __name__ == '__main__':
     unittest.main()
