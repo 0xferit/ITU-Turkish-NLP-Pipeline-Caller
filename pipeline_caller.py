@@ -17,7 +17,7 @@
 
 author_copyright = "\nCopyright 2015 Ferit Tunçer ferit.tuncer@autistici.org"
 
-version = 0.74
+version = 0.75
 
 import sys
 import urllib.request
@@ -129,7 +129,7 @@ def readToken():
 	try:
 		token_file = open(token_path)
 		token = token_file.readline().strip()
-		return token
+		return token	
 	except:
 		raise
 
@@ -154,21 +154,29 @@ def process():
 #-- Functions
 
 #++ Main Block
-args = parseArguments()
-try:
-	full_text, sentences, sentence_count = readInput(args.filename)
-	output_path = getOutputPath()
-	token = readToken()
-	conditional_info("[INFO] File I/O encoding: {}".format(args.encoding))
-	no_parameter_message, invalid_token_message, invalid_tool_message, invalid_param_message = fetchInvalidMessages()
-	start_time = time.time()
-	conditional_info("[INFO] Pipeline tool: {}".format(args.tool))
-	process()
-except KeyboardInterrupt:
-	conditional_info("[QUIT] Interrupted by user.")
-except:
-	warning("{0}".format(sys.exc_info()))
-	sys.exit("[FATAL] Terminating.")
+def main():
+	try:
+		global full_text, sentences, sentence_count
+		full_text, sentences, sentence_count = readInput(args.filename)
+		global output_path		
+		output_path = getOutputPath()
+		global token
+		token = readToken()
+		conditional_info("[INFO] File I/O encoding: {}".format(args.encoding))
+		no_parameter_message, invalid_token_message, invalid_tool_message, invalid_param_message = fetchInvalidMessages()
+		global start_time		
+		start_time = time.time()
+		conditional_info("[INFO] Pipeline tool: {}".format(args.tool))
+		process()
+	except KeyboardInterrupt:
+		conditional_info("[QUIT] Interrupted by user.")
+	except:
+		warning("{0}".format(sys.exc_info()))
+		sys.exit("[FATAL] Terminating.")
 
 #-- Main Block
+
+if __name__ == '__main__':
+	args = parseArguments()
+	sys.exit(main())
 
