@@ -183,7 +183,8 @@ def tokenTest2():
 	return 2
 
 def general_test():
-	no_parameter_message, invalid_token_message, invalid_tool_message, invalid_param_message = fetchInvalidMessages()
+	dummy_params = urllib.parse.urlencode({'tool': "pipelineNoisy", 'input': "dummy", 'token': "wrong_token"}).encode(pipeline_encoding)
+	invalid_token_message = urllib.request.urlopen(api_url, dummy_params).read().decode(pipeline_encoding)
 	full_text, sentences, sentence_count = readInput("Katana.txt")
 	token = readToken()
 	params = urllib.parse.urlencode({'tool': "pipelineNoisy", 'input': full_text, 'token': token}).encode(pipeline_encoding)
