@@ -17,7 +17,7 @@
 
 author_copyright = "\nCopyright 2015 Ferit Tunçer ferit.tuncer@autistici.org"
 
-version = 0.73
+version = 0.74
 
 import sys
 import urllib.request
@@ -28,7 +28,7 @@ import os.path
 import argparse
 import re
 import locale
-
+import unittest
 
 #++ DEFAULTS
 token_path = "pipeline.token"
@@ -61,12 +61,14 @@ def request(params):
 		result = urllib.request.urlopen(api_url, params)
 		readed_result = result.read().decode(pipeline_encoding)
 		if readed_result == invalid_token_message:
+			assert 1==2
 			sys.exit(invalid_token_message)
 		elif readed_result == invalid_tool_message:
 			sys.exit(invalid_tool_message)
 		elif readed_result == invalid_param_message:
 			sys.exit(invalid_param_message)
 		elif readed_result == no_parameter_message:
+			assert 1==2
 			sys.exit(no_parameter_message)
 		return readed_result
 	except KeyboardInterrupt:
@@ -169,3 +171,4 @@ except:
 	sys.exit("[FATAL] Terminating.")
 
 #-- Main Block
+
