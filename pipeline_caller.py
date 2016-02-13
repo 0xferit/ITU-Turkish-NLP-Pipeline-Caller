@@ -126,7 +126,7 @@ def getOutputPath():
 def readToken():
 	try:
 		token_file = open(token_path)
-		token = token_file.readline()
+		token = token_file.readline().strip()
 		return token
 	except:
 		raise
