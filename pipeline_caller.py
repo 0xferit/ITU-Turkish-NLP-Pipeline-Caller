@@ -27,7 +27,6 @@ import os.path
 import argparse
 import re
 import locale
-import unittest
 
 #++ DEFAULTS
 token_path = "pipeline.token"
