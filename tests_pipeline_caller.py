@@ -16,7 +16,7 @@ class Test(unittest.TestCase):
     
     def tool_exception_test(self):
         try:
-            exec(open("./pipeline_caller.py Katana.txt").read())
+            exec(open("./pipeline_caller.py").read())
         except:
             self.fail("Exception thrown")
 
