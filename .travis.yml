@@ -3,4 +3,4 @@ python:
   - "3.4"
   - "3.5"
 # command to run tests
-script: nosetests -v t_pipeline_caller.py
+script: nosetests -v tests_pipeline_caller.py
