@@ -1,5 +1,5 @@
 # ITU Turkish NLP Pipeline Caller
- A tool to use [ITU Turkish NLP Pipeline API](http://tools.nlp.itu.edu.tr/)
+ A Python3 tool to use [ITU Turkish NLP Pipeline API](http://tools.nlp.itu.edu.tr/)
  
 [![Build Status](https://travis-ci.org/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller.svg?branch=master)](https://travis-ci.org/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller)
 
@@ -14,7 +14,7 @@ of the European Chapter of the Association for Computational Linguistics
 of Turkish. Computational Linguistics, 34 no.3, 2008. ](http://www.mitpressjournals.org/doi/pdf/10.1162/coli.2008.07-017-R1-06-83)
 
 ## Usage
-To be able to use the pipeline, you need an authentication token (details on API web page).
+To be able to use the pipeline, you need an **authentication token** (details on API web page).
 
 ### As a Command Line Tool
 The tool reads the token from `pipeline.token` file (under the same directory with the tool) by default.
@@ -23,20 +23,20 @@ Simply
 `python3 ./pipeline.caller.py filename`
 reads input file <filename>, prints the output under `./output/output<system_time>`
 
-You can select the pipeline tool by using -t option
+You can select the pipeline tool by using `-t` option
 `python3 ./pipeline.caller.py filename -t <tool_name>`
 default is "pipelineNoisy"
 
-You can force the encoding for I/O by using -e option
+You can force the encoding for I/O by using `-e` option
 `python3 ./pipeline.caller.py filename -e <encoding>`
 default is your system locale
 
-And you can change the output directory by using -o option
+And you can change the output directory by using `-o` option
 `python3 ./pipeline.caller.py filename -o another_directory`
 default is "pipeline_caller_output"
 
-Also `python3 ./pipeline.caller.py --help` show the help menu.
-### Importing As a Module
+Also `python3 ./pipeline.caller.py --help` shows the help menu.
+### Using As a Module
 
 `import pipeline_caller`
 
