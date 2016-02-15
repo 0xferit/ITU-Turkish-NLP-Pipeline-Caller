@@ -1,5 +1,5 @@
 # ITU Turkish NLP Pipeline Caller
- A command-line tool for using [ITU Turkish NLP Pipeline API](http://tools.nlp.itu.edu.tr/)
+ A tool to use [ITU Turkish NLP Pipeline API](http://tools.nlp.itu.edu.tr/)
  
 [![Build Status](https://travis-ci.org/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller.svg?branch=master)](https://travis-ci.org/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller)
 
@@ -14,33 +14,51 @@ of the European Chapter of the Association for Computational Linguistics
 of Turkish. Computational Linguistics, 34 no.3, 2008. ](http://www.mitpressjournals.org/doi/pdf/10.1162/coli.2008.07-017-R1-06-83)
 
 ## Usage
-To be able to use the pipeline, you need an authentication token(details on API web page).
-The tool reads the token from `pipeline.token` file(under the same directory with the tool) by default.
+To be able to use the pipeline, you need an authentication token (details on API web page).
 
-`pipeline.caller.py filename`
-reads input file <filename>, prints the output under `./pipeline_caller_output/output<%system_time>`
+### As a Command Line Tool
+The tool reads the token from `pipeline.token` file (under the same directory with the tool) by default.
+
+Simply
+`python3 ./pipeline.caller.py filename`
+reads input file <filename>, prints the output under `./output/output<system_time>`
 
 You can select the pipeline tool by using -t option
-`pipeline.caller.py filename -t <tool name>`
+`python3 ./pipeline.caller.py filename -t <tool_name>`
 default is "pipelineNoisy"
 
 You can force the encoding for I/O by using -e option
-`pipeline.caller.py filename -e <encoding>`
+`python3 ./pipeline.caller.py filename -e <encoding>`
 default is your system locale
 
 And you can change the output directory by using -o option
-`pipeline.caller.py filename -o another_directory`
+`python3 ./pipeline.caller.py filename -o another_directory`
 default is "pipeline_caller_output"
 
-##  Defaults
+Also `python3 ./pipeline.caller.py --help` show the help menu.
+### Importing As a Module
 
-Check DEFAULTS block in the source code if you need to change one of these:
+`import pipeline_caller`
+
+`caller = pipeline_caller.PipelineCaller()`
+
+`result = caller.call(<tool_name>, <text>, <api_token>)`
+
+##  Defaults (Optional)
+
+Check DEFAULTS block in the source code if you need (generally, you don't) to change one of these:
 
 `api_url = "http://tools.nlp.itu.edu.tr/SimpleApi"` 
 
 `pipeline_encoding = 'UTF-8'`
 
-`token_path = "pipeline.token"`
+`token_path = "pipeline.token"` for command line tool
+
+`default_output_dir = "output"`
+
+`default_enconding = locale.getpreferredencoding(False)` default encoding in your OS, for I/O operations in command line tool
+
+`default_separator_char_class = "[\.\?:;!]"` for command line tool, to separate sentences and process sentence by sentence
 
 ## Author, Copyright & License
 
