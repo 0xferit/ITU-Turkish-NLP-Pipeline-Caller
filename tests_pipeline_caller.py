@@ -7,14 +7,14 @@ import nose.tools
 
 class Test(unittest.TestCase):
 
-    def __module_exception_test():
+    def module_exception_test():
         try:
             caller = pipeline_caller.PipelineCaller()
             caller.call("pipelineNoisy", "test sentence", "random token")
         except:
             self.fail("Exception thrown")
     
-    def __tool_exception_test():
+    def tool_exception_test():
         try:
             exec(open("./pipeline_caller.py Katana.txt").read())
         except:
