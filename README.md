@@ -3,6 +3,8 @@
  
 [![Build Status](https://travis-ci.org/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller.svg?branch=master)](https://travis-ci.org/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller)
 
+[![Join the chat at https://webhooks.gitter.im/e/f5d30b50b98748ca606f](https://badges.gitter.im/Join%20Chat.svg)](https://webhooks.gitter.im/e/f5d30b50b98748ca606f)
+
 For details of the pipeline, please check the pipeline page and the sources below.
 
 [Gülşen Eryiğit . ITU Turkish NLP Web Service
