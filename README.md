@@ -44,9 +44,9 @@ Also `python3 ./pipeline.caller.py --help` show the help menu.
 
 `result = caller.call(<tool_name>, <text>, <api_token>)`
 
-##  Defaults
+##  Defaults (Optional)
 
-Check DEFAULTS block in the source code if you need to change one of these:
+Check DEFAULTS block in the source code if you need (generally, you don't) to change one of these:
 
 `api_url = "http://tools.nlp.itu.edu.tr/SimpleApi"` 
 
