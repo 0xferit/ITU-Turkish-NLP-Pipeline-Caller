@@ -36,7 +36,7 @@ And you can change the output directory by using -o option
 default is "pipeline_caller_output"
 
 Also `python3 ./pipeline.caller.py --help` show the help menu.
-### Importing As a Module
+### Using As a Module
 
 `import pipeline_caller`
 
