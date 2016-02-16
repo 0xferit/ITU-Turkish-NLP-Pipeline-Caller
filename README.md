@@ -59,6 +59,8 @@ Check DEFAULTS block in the source code if you need (generally, you don't) to ch
 `default_enconding = locale.getpreferredencoding(False)` default encoding in your OS, for I/O operations in command line tool
 
 `default_separator_char_class = "[\.\?:;!]"` for command line tool, to separate sentences and process sentence by sentence
+## Special Thanks
+Special thanks to [Professor Peter Schüller](https://github.com/peschue) for his great suggestions!
 
 ## Author, Copyright & License
 
