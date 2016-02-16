@@ -1,7 +1,7 @@
 # ITU Turkish NLP Pipeline Caller
- A Python3 tool to use [ITU Turkish NLP Pipeline API](http://tools.nlp.itu.edu.tr/)
+ A Python3 wrapper tool to use [ITU Turkish NLP Pipeline API](http://tools.nlp.itu.edu.tr/)
  
-[![Build Status](https://travis-ci.org/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller.svg?branch=master)](https://travis-ci.org/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller)
+[![Build Status](https://travis-ci.org/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller.svg?branch=master)](https://travis-ci.org/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller) [![Join the chat at https://gitter.im/freecodecamp/freecodecamp](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller)
 
 For details of the pipeline, please check the pipeline page and the sources below.
 
@@ -59,8 +59,11 @@ Check DEFAULTS block in the source code if you need (generally, you don't) to ch
 `default_enconding = locale.getpreferredencoding(False)` default encoding in your OS, for I/O operations in command line tool
 
 `default_separator_char_class = "[\.\?:;!]"` for command line tool, to separate sentences and process sentence by sentence
+## Special Thanks
+Special thanks to [Asst. Prof. Dr. Peter Schüller](https://github.com/peschue) for his great suggestions!
 
 ## Author, Copyright & License
+This work is a part of a [KnowLP](knowlp.com) research project.
 
 Copyright 2015 Ferit Tunçer, <ferit.tuncer@autistici.org>
 
