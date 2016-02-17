@@ -1,7 +1,6 @@
-# ITU Turkish NLP Pipeline Caller
+# ITU Turkish NLP Pipeline Caller [![Build Status](https://travis-ci.org/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller.svg?branch=master)](https://travis-ci.org/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller) [![Join the chat at https://gitter.im/freecodecamp/freecodecamp](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller)
  A Python3 wrapper tool to use [ITU Turkish NLP Pipeline API](http://tools.nlp.itu.edu.tr/)
- 
-[![Build Status](https://travis-ci.org/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller.svg?branch=master)](https://travis-ci.org/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller) [![Join the chat at https://gitter.im/freecodecamp/freecodecamp](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller)
+
 
 For details of the pipeline, please check the pipeline page and the sources below.
 
@@ -21,19 +20,19 @@ Simply run `python3 ./setup.py install` to install
 The tool reads the token from `pipeline.token` file (under the same directory with the tool) by default.
 
 Simply
-`pipeline.caller.py filename`
+`pipeline.caller.py >filename>`
 reads input file <filename>, prints the output under `./output/output<system_time>`
 
 You can select the pipeline tool by using `-t` option
-`pipeline.caller.py filename -t <tool_name>`
+`pipeline.caller.py <filename> -t <tool_name>`
 default is "pipelineNoisy"
 
 You can force the encoding for I/O by using `-e` option
-`pipeline.caller.py filename -e <encoding>`
+`pipeline.caller.py <filename> -e <encoding>`
 default is your system locale
 
 And you can change the output directory by using `-o` option
-`pipeline.caller.py filename -o another_directory`
+`pipeline.caller.py <filename> -o another_directory`
 default is "pipeline_caller_output"
 
 Also `pipeline.caller.py --help` shows the help menu.
