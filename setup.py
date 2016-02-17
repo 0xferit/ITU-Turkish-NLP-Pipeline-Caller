@@ -1,7 +1,8 @@
+import pipeline_caller
 from setuptools import setup, find_packages
 setup(
     name = "ITU-Turkish-NLP-Pipeline-Caller",
-    version = "1.0.0",
+    version = pipeline_caller.version,
     packages = find_packages(),
     scripts = ['pipeline_caller.py'],
     py_modules=['pipeline_caller'],
