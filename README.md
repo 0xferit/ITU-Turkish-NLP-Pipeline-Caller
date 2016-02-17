@@ -13,6 +13,9 @@ of Turkish. Computational Linguistics, 34 no.3, 2008.](http://www.mitpressjourna
 To be able to use the pipeline, you need an **authentication token** (details on API web page).
 ### Setup
 Download the latest release, extract the archive and inside that directory simply run `python3 ./setup.py install` to install.
+
+Or using pip, `pip install ITU-Turkish-NLP-Pipeline-Caller`
+[PyPI page](https://pypi.python.org/pypi/ITU-Turkish-NLP-Pipeline-Caller/1.0.1)
 ### As a Command Line Tool
 The tool reads the token from `pipeline.token` file (under the same directory with the tool) by default.
 
