@@ -15,7 +15,7 @@ of Turkish. Computational Linguistics, 34 no.3, 2008. ](http://www.mitpressjourn
 ## Usage
 To be able to use the pipeline, you need an **authentication token** (details on API web page).
 ### Setup
-Simply run `python3 ./setup.py install` to install.
+Download the latest release, extract the archive and inside that directory simply run `python3 ./setup.py install` to install.
 ### As a Command Line Tool
 The tool reads the token from `pipeline.token` file (under the same directory with the tool) by default.
 
