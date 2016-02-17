@@ -21,22 +21,22 @@ Simply run `python3 ./setup.py install` to install
 The tool reads the token from `pipeline.token` file (under the same directory with the tool) by default.
 
 Simply
-`python3 ./pipeline.caller.py filename`
+`pipeline.caller.py filename`
 reads input file <filename>, prints the output under `./output/output<system_time>`
 
 You can select the pipeline tool by using `-t` option
-`python3 ./pipeline.caller.py filename -t <tool_name>`
+`pipeline.caller.py filename -t <tool_name>`
 default is "pipelineNoisy"
 
 You can force the encoding for I/O by using `-e` option
-`python3 ./pipeline.caller.py filename -e <encoding>`
+`pipeline.caller.py filename -e <encoding>`
 default is your system locale
 
 And you can change the output directory by using `-o` option
-`python3 ./pipeline.caller.py filename -o another_directory`
+`pipeline.caller.py filename -o another_directory`
 default is "pipeline_caller_output"
 
-Also `python3 ./pipeline.caller.py --help` shows the help menu.
+Also `pipeline.caller.py --help` shows the help menu.
 ### Using As a Module
 
 `import pipeline_caller`
