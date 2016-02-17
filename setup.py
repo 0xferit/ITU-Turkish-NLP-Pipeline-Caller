@@ -17,4 +17,10 @@ setup(
     license = "GPLv2",
     keywords = "ITU Turkish NLP Pipeline",
     url = "https://github.com/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller",
+    classifiers=[
+       'Development Status :: 5 - Production/Stable',
+       'License :: OSI Approved :: GNU General Public License v2 (GPLv2)',
+       'Topic :: Text Processing :: Linguistic',
+       'Natural Language :: Turkish',
+       'Programming Language :: Python :: 3',]
 )
