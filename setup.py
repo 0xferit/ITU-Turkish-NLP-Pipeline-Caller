@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 setup(
-    name = "ITU Turkish NLP Pipeline Caller",
+    name = "ITU-Turkish-NLP-Pipeline-Caller",
     version = "1.0.0",
     packages = find_packages(),
     scripts = ['pipeline_caller.py'],
