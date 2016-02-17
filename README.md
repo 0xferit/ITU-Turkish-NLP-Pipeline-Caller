@@ -4,24 +4,21 @@
 
 For details of the pipeline, please check the pipeline page and the sources below.
 
-[Gülşen Eryiğit . ITU Turkish NLP Web Service
-In Proceedings of the Demonstrations at the 14th Conference
-of the European Chapter of the Association for Computational Linguistics
-(EACL 2014). Gothenburg, Sweden, April 2014.](http://web.itu.edu.tr/gulsenc/papers/itunlp.pdf)
+[Eryigit, Gülsen. "ITU Turkish NLP Web Service." EACL. 2014.](http://web.itu.edu.tr/gulsenc/papers/itunlp.pdf)
 
-[Gülşen Eryiğit, Joakim Nivre, and Kemal Oflazer. Dependency Parsing
-of Turkish. Computational Linguistics, 34 no.3, 2008. ](http://www.mitpressjournals.org/doi/pdf/10.1162/coli.2008.07-017-R1-06-83)
+[Gülşen Eryiğit, Joakim Nivre, and Kemal Oflazer. Dependency Parsing 
+of Turkish. Computational Linguistics, 34 no.3, 2008.](http://www.mitpressjournals.org/doi/pdf/10.1162/coli.2008.07-017-R1-06-83)
 
 ## Usage
 To be able to use the pipeline, you need an **authentication token** (details on API web page).
 ### Setup
-Simply run `python3 ./setup.py install` to install.
+Download the latest release, extract the archive and inside that directory simply run `python3 ./setup.py install` to install.
 ### As a Command Line Tool
 The tool reads the token from `pipeline.token` file (under the same directory with the tool) by default.
 
 Simply
-`pipeline.caller.py >filename>`
-reads input file <filename>, prints the output under `./output/output<system_time>`
+`pipeline.caller.py <filename>`
+reads the input file, prints the output under `./output/output<system_time>`
 
 You can select the pipeline tool by using `-t` option
 `pipeline.caller.py <filename> -t <tool_name>`
