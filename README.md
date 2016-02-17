@@ -17,7 +17,7 @@ Download the latest release, extract the archive and inside that directory simpl
 The tool reads the token from `pipeline.token` file (under the same directory with the tool) by default.
 
 Simply
-`pipeline.caller.py `<filename>`
+`pipeline.caller.py <filename>`
 reads input file filename, prints the output under `./output/output<system_time>`
 
 You can select the pipeline tool by using `-t` option
