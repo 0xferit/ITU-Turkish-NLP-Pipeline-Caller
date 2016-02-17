@@ -1,23 +1,23 @@
 #!/usr/bin/python3
 
-##      ITU TURKISH NLP PIPELINE CALLER
-##      Copyright 2015 Ferit Tunçer
-##
-##      This program is free software; you can redistribute it and/or
-##  modify it under the terms of the GNU General Public License version 2
-##  as published by the Free Software Foundation.
-##
-##      This program is distributed in the hope that it will be useful,
-##  but WITHOUT ANY WARRANTY; without even the implied warranty of
-##  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-##  GNU General Public License for more details.
-##
-##      You should have received a copy of the GNU General Public License
-##  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+name = "ITU Turkish NLP Pipeline Caller"
+copyright = "Copyright 2015 Ferit Tunçer"
 
-author_copyright = "\nCopyright 2015 Ferit Tunçer ferit.tuncer@autistici.org"
+license = "This program is free software; you can redistribute it and/or \
+modify it under the terms of the GNU General Public License version 2 \
+as published by the Free Software Foundation. \
+This program is distributed in the hope that it will be useful, \
+but WITHOUT ANY WARRANTY; without even the implied warranty of \
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the \
+GNU General Public License for more details. \
+You should have received a copy of the GNU General Public License \
+along with this program.  If not, see <http://www.gnu.org/licenses/>."
 
-version = "1.0.0"
+author = "Ferit Tunçer"
+email = "ferit.tuncer@autistici.org"
+website = "https://github.com/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller"
+
+version = "1.0.1"
 
 import sys
 import urllib.request
@@ -91,7 +91,8 @@ def __conditional_info(to_be_printed):
 
 def __parseArguments():
         arg_parser = argparse.ArgumentParser(
-        description="ITU Turkish NLP Pipeline Caller v{}{}".format(version, author_copyright),
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        description="ITU Turkish NLP Pipeline Caller v{}\n{} <{}>\n{}".format(version, author, email, website),
         epilog="TOOLS: ner, morphanalyzer, isturkish,  morphgenerator, tokenizer, normalize, deasciifier, Vowelizer, DepParserFormal, DepParserNoisy, spellcheck, disambiguator, pipelineFormal, pipelineNoisy",
         add_help=True)
         arg_parser.add_argument("filename", help="relative input filepath")
@@ -100,6 +101,8 @@ def __parseArguments():
         arg_parser.add_argument("-t", "--tool", metavar="T", dest="tool", default="pipelineNoisy", help="pipeline tool name, \"pipelineNoisy\" by default")
         arg_parser.add_argument("-e", "--encoding", dest="encoding", metavar="E", default=default_encoding, help="force I/O to use given encoding, instead of default locale")
         arg_parser.add_argument("-o", "--output", metavar="O", dest="output_dir", default=default_output_dir, help="change output directory, \"{}\" by default".format(default_output_dir))
+        arg_parser.add_argument('--version', action='version', version='{} {}'.format(name, version), help="version information")
+        arg_parser.add_argument('--license', action='version', version='{}'.format(license), help="license information")
         return arg_parser.parse_args()
 
 if __name__ == '__main__':
@@ -114,7 +117,6 @@ if __name__ == '__main__':
     start_time = time.time()
 
     caller = PipelineCaller()
-    
     if args.separate == 0:
         __conditional_info("[INFO] Processing all the text at once")
         with open(output_path, 'w', encoding=args.encoding) as output_file:
