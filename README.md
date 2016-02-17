@@ -64,7 +64,7 @@ Check DEFAULTS block in the source code if you need (generally, you don't) to ch
 Special thanks to [Asst. Prof. Dr. Peter Schüller](https://github.com/peschue) for his great suggestions!
 
 ## Author, Copyright & License
-This work is a part of a [KnowLP](knowlp.com) research project.
+This work is a part of a [KnowLP](http://www.knowlp.com) research project.
 
 Copyright 2015 Ferit Tunçer, <ferit.tuncer@autistici.org>
 
