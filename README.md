@@ -18,7 +18,7 @@ The tool reads the token from `pipeline.token` file (under the same directory wi
 
 Simply
 `pipeline.caller.py <filename>`
-reads input file filename, prints the output under `./output/output<system_time>`
+reads the input file, prints the output under `./output/output<system_time>`
 
 You can select the pipeline tool by using `-t` option
 `pipeline.caller.py <filename> -t <tool_name>`
