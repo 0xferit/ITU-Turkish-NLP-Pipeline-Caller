@@ -15,7 +15,7 @@ of Turkish. Computational Linguistics, 34 no.3, 2008. ](http://www.mitpressjourn
 ## Usage
 To be able to use the pipeline, you need an **authentication token** (details on API web page).
 ### Setup
-Simply run `python3 ./setup.py install` to install
+Simply run `python3 ./setup.py install` to install.
 ### As a Command Line Tool
 The tool reads the token from `pipeline.token` file (under the same directory with the tool) by default.
 
@@ -32,8 +32,8 @@ You can force the encoding for I/O by using `-e` option
 default is your system locale
 
 And you can change the output directory by using `-o` option
-`pipeline.caller.py <filename> -o another_directory`
-default is "pipeline_caller_output"
+`pipeline.caller.py <filename> -o <another_directory>`
+default is "output"
 
 Also `pipeline.caller.py --help` shows the help menu.
 ### Using As a Module
