@@ -4,6 +4,7 @@ setup(
     version = "1.0.0",
     packages = find_packages(),
     scripts = ['pipeline_caller.py'],
+    py_modules=['pipeline_caller'],
     author = "Ferit Tunçer",
     author_email = "ferit.tuncer@autistici.org",
     description = "A wrapper tool to use ITU Turkish NLP Pipeline API",
