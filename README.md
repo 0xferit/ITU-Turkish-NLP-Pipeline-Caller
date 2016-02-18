@@ -12,7 +12,7 @@ of Turkish. Computational Linguistics, 34 no.3, 2008.](http://www.mitpressjourna
 ## Usage
 To be able to use the pipeline, you need an **authentication token** (details on API web page).
 
-If you experience any problem feel free to contact with me via [email](ferit.tuncer@autistici.org), or via the [gitter chat room](https://gitter.im/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller).
+If you experience any problem feel free to contact with me via email (see author section), or via the [gitter chat room](https://gitter.im/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller).
 ### Setup
 Download the latest release, extract the archive and inside that directory simply run `python3 ./setup.py install` to install.
 
