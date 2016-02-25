@@ -29,12 +29,15 @@ Simply
 reads the input file, prints the output under `./output/output<system_time>`
 
 You can select the pipeline tool by using `-t` option
-`pipeline_caller <filename> -t <tool_name>`
+`pipeline_caller <filename> --tool <tool_name>`
 default is "pipelineNoisy"
 
 You can force the encoding for I/O by using `-e` option
 `pipeline_caller <filename> -e <encoding>`
 default is your system locale
+
+You can switch processing type using `-p` option. Input text can be processed whole at once, sentence by sentence or word by word. For some tools (`isturkish` for example) in the Pipeline, word by word processing is necessary at the moment. Default type is whole at once.
+Example: `pipeline_caller <filename> --tool isturkish -p word` sends input text to `isturkish` tool, word by word.
 
 And you can change the output directory by using `-o` option
 `pipeline_caller <filename> -o <another_directory>`
