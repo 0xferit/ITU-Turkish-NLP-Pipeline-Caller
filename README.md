@@ -12,12 +12,12 @@ of Turkish. Computational Linguistics, 34 no.3, 2008.](http://www.mitpressjourna
 ## Usage
 To be able to use the pipeline, you need an **authentication token** (details on API web page).
 
-If you experience any problem feel free to contact with me via email (see author section), or via the [gitter chat room](https://gitter.im/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller).
+If you experience any problem please contact with me via email (see author section), or preferably via the [gitter chat room](https://gitter.im/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller).
 ### Setup
 Download the latest release, extract the archive and inside that directory simply run `python3 ./setup.py install` to install.
 
 Or using pip3, `pip3 install ITU-Turkish-NLP-Pipeline-Caller`
-[PyPI page](https://pypi.python.org/pypi/ITU-Turkish-NLP-Pipeline-Caller/1.0.1)
+[PyPI page](https://pypi.python.org/pypi/ITU-Turkish-NLP-Pipeline-Caller)
 ### As a Command Line Tool
 The tool reads the token from `pipeline.token` file (under the same directory with the tool) by default.
 
@@ -60,7 +60,7 @@ Check DEFAULTS block in the source code if you need (generally, you don't) to ch
 
 `default_enconding = locale.getpreferredencoding(False)` default encoding in your OS, for I/O operations in command line tool
 
-`default_separator_char_class = "[\.\?:;!]"` for command line tool, to separate sentences and process sentence by sentence
+`default_sentence_split_delimiter_class = "[\.\?:;!]"` for command line tool, to separate sentences and process sentence by sentence
 ## Special Thanks
 Special thanks to [Asst. Prof. Dr. Peter Schüller](https://github.com/peschue) for his great suggestions!
 
