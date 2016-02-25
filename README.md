@@ -17,7 +17,7 @@ If you experience any problem feel free to contact with me via email (see author
 Download the latest release, extract the archive and inside that directory simply run `python3 ./setup.py install` to install.
 
 Or using pip3, `pip3 install ITU-Turkish-NLP-Pipeline-Caller`
-[PyPI page](https://pypi.python.org/pypi/ITU-Turkish-NLP-Pipeline-Caller/1.0.1)
+[PyPI page](https://pypi.python.org/pypi/ITU-Turkish-NLP-Pipeline-Caller)
 ### As a Command Line Tool
 The tool reads the token from `pipeline.token` file (under the same directory with the tool) by default.
 
