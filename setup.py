@@ -9,8 +9,12 @@ setup(
     name = "ITU-Turkish-NLP-Pipeline-Caller",
     version = pipeline_caller.version,
     packages = find_packages(),
-    scripts = ['pipeline_caller.py'],
     py_modules=['pipeline_caller'],
+    entry_points={
+       'console_scripts': [
+           'pipeline_caller = pipeline_caller:main',
+       ],
+    },
     author = "Ferit Tunçer",
     author_email = "ferit.tuncer@autistici.org",
     description = "A wrapper tool to use ITU Turkish NLP Pipeline API",
