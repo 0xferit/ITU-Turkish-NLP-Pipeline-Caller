@@ -1,5 +1,8 @@
-# ITU Turkish NLP Pipeline Caller [![Build Status](https://travis-ci.org/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller.svg?branch=master)](https://travis-ci.org/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller) [![Join the chat at https://gitter.im/freecodecamp/freecodecamp](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller)
+# ITU Turkish NLP Pipeline Caller 
+[![Build Status](https://travis-ci.org/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller.svg?branch=master)](https://travis-ci.org/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller) [![PyPI version](https://badge.fury.io/py/ITU-Turkish-NLP-Pipeline-Caller.svg)](https://badge.fury.io/py/ITU-Turkish-NLP-Pipeline-Caller) [![Join the chat at https://gitter.im/freecodecamp/freecodecamp](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller)
+
  A Python3 wrapper tool to use [ITU Turkish NLP Pipeline API](http://tools.nlp.itu.edu.tr/)
+
 
 
 For details of the pipeline, please check the pipeline page and the sources below.
@@ -16,28 +19,28 @@ If you experience any problem please contact with me via email (see author secti
 ### Setup
 Download the latest release, extract the archive and inside that directory simply run `python3 ./setup.py install` to install.
 
-Or using pip3, `pip3 install ITU-Turkish-NLP-Pipeline-Caller`
-[![PyPI version](https://badge.fury.io/py/ITU-Turkish-NLP-Pipeline-Caller.svg)](https://badge.fury.io/py/ITU-Turkish-NLP-Pipeline-Caller)
+Or more easily, `pip3 install ITU-Turkish-NLP-Pipeline-Caller`
+
 ### As a Command Line Tool
 The tool reads the token from `pipeline.token` file (under the same directory with the tool) by default.
 
 Simply
-`pipeline.caller.py <filename>`
+`pipeline_caller <filename>`
 reads the input file, prints the output under `./output/output<system_time>`
 
 You can select the pipeline tool by using `-t` option
-`pipeline.caller.py <filename> -t <tool_name>`
+`pipeline_caller <filename> -t <tool_name>`
 default is "pipelineNoisy"
 
 You can force the encoding for I/O by using `-e` option
-`pipeline.caller.py <filename> -e <encoding>`
+`pipeline_caller <filename> -e <encoding>`
 default is your system locale
 
 And you can change the output directory by using `-o` option
-`pipeline.caller.py <filename> -o <another_directory>`
+`pipeline_caller <filename> -o <another_directory>`
 default is "output"
 
-Also `pipeline.caller.py --help` shows the help menu.
+Also `pipeline_caller --help` shows the help menu.
 ### Using As a Module
 
 `import pipeline_caller`
