@@ -85,7 +85,6 @@ def __getOutputPath():
 
 
 def __conditional_info(to_be_printed):
-    #
     if args.quiet == 0:
         print(to_be_printed)
 
