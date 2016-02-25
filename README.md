@@ -25,22 +25,22 @@ Or more easily, `pip3 install ITU-Turkish-NLP-Pipeline-Caller`
 The tool reads the token from `pipeline.token` file (under the same directory with the tool) by default.
 
 Simply
-`pipeline.caller <filename>`
+`pipeline_caller <filename>`
 reads the input file, prints the output under `./output/output<system_time>`
 
 You can select the pipeline tool by using `-t` option
-`pipeline.caller <filename> -t <tool_name>`
+`pipeline_caller <filename> -t <tool_name>`
 default is "pipelineNoisy"
 
 You can force the encoding for I/O by using `-e` option
-`pipeline.caller <filename> -e <encoding>`
+`pipeline_caller <filename> -e <encoding>`
 default is your system locale
 
 And you can change the output directory by using `-o` option
-`pipeline.caller <filename> -o <another_directory>`
+`pipeline_caller <filename> -o <another_directory>`
 default is "output"
 
-Also `pipeline.caller --help` shows the help menu.
+Also `pipeline_caller --help` shows the help menu.
 ### Using As a Module
 
 `import pipeline_caller`
