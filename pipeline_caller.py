@@ -18,7 +18,7 @@ author = "Ferit Tunçer"
 email = "ferit.tuncer@autistici.org"
 website = "https://github.com/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller"
 
-version = "2.1.0"
+version = "2.2.0"
 
 import sys
 import urllib.request
@@ -41,9 +41,10 @@ pipeline_encoding = 'UTF-8'
 
 class PipelineCaller:
 
-    def call(self, tool, text, token):
+    def call(self, tool='pipelineNoisy', text ='example', token='invalid'):
         params = urllib.parse.urlencode({'tool': tool, 'input': text, 'token': token}).encode(pipeline_encoding)
         try:
+            
             result = urllib.request.urlopen(api_url, params)
             return result.read().decode(pipeline_encoding)
         except:
@@ -88,20 +89,20 @@ def __conditional_info(to_be_printed, quiet):
         print(to_be_printed)
 
 def __parseArguments():
+    #epilog section is free now
     arg_parser = argparse.ArgumentParser(
     formatter_class=argparse.RawDescriptionHelpFormatter,
     description="ITU Turkish NLP Pipeline Caller v{}\n{} <{}>\n{}".format(version, author, email, website),
-    epilog="TOOLS: ner, morphanalyzer, isturkish,  morphgenerator, tokenizer, normalize, deasciifier, Vowelizer, DepParserFormal, DepParserNoisy, spellcheck, disambiguator, pipelineFormal, pipelineNoisy",
     add_help=True)
     arg_parser.add_argument("filename", help="relative input filepath")
-    arg_parser.add_argument('-s', '--sentence-by-sentence', dest="sentence_by_sentence", action="store_true", help="process sentence by sentence instead of all at once")
-    arg_parser.add_argument('-w', '--word-by-word', dest="word_by_word", action="store_true", help="process word by word instead of all at once")
+    arg_parser.add_argument('-p', '--processing-type', dest='processing_type', choices=['word', 'sentence', 'whole'], default='whole', help='Switches processing type, default is whole text at once. Alternatively, word by word or sentence by sentence processing can be selected.')
     arg_parser.add_argument("-q", "--quiet", dest="quiet", action="store_true", help="no info during process")
-    arg_parser.add_argument("-t", "--tool", metavar="T", dest="tool", default="pipelineNoisy", help="pipeline tool name, \"pipelineNoisy\" by default")
+    arg_parser.add_argument("--tool", dest="tool", default="pipelineNoisy", choices=["ner", "morphanalyzer", "isturkish",  "morphgenerator", "tokenizer", "normalize", "deasciifier", "Vowelizer", "DepParserFormal", "DepParserNoisy", "spellcheck", "disambiguator", "pipelineFormal", "pipelineNoisy"], help="Switches pipeline tool which is \"pipelineNoisy\" by default")
     arg_parser.add_argument("-e", "--encoding", dest="encoding", metavar="E", default=default_encoding, help="force I/O to use given encoding, instead of default locale")
     arg_parser.add_argument("-o", "--output", metavar="O", dest="output_dir", default=default_output_dir, help="change output directory, \"{}\" by default".format(default_output_dir))
     arg_parser.add_argument('--version', action='version', version='{} {}'.format(name, version), help="version information")
     arg_parser.add_argument('--license', action='version', version='{}'.format(license), help="license information")
+
 
     return arg_parser.parse_args()
 
@@ -119,14 +120,14 @@ def main(args=None):
     start_time = time.time()
 
     caller = PipelineCaller()
-    if args.sentence_by_sentence == 1:
+    if args.processing_type == 'sentence':
         __conditional_info("[INFO] Processing sentence by sentence", args.quiet)
         with open(output_path, 'w', encoding=args.encoding) as output_file:
             for sentence in sentences:
                 output_file.write("{0}\n".format(caller.call(args.tool, sentence, token)))
         print("[DONE] It took {0} seconds to process all {1} sentences.".format(str(time.time()-start_time).split('.')[0], sentence_count))
 
-    if args.word_by_word == 1:
+    if args.processing_type == 'word':
         __conditional_info("[INFO] Processing word by word", args.quiet)
         word_count = 0
         with open(output_path, 'w', encoding=args.encoding) as output_file:
@@ -137,7 +138,7 @@ def main(args=None):
         print("[DONE] It took {0} seconds to process all {1} words.".format(str(time.time()-start_time).split('.')[0], word_count))
 
 
-    else:
+    if args.processing_type == 'whole':
         __conditional_info("[INFO] Processing all the text at once", args.quiet)
         with open(output_path, 'w', encoding=args.encoding) as output_file:
             output_file.write("{0}\n".format(caller.call(args.tool, full_text, token)))
