@@ -1,5 +1,6 @@
 # ITU Turkish NLP Pipeline Caller 
 [![Build Status](https://travis-ci.org/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller.svg?branch=master)](https://travis-ci.org/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller) [![PyPI version](https://badge.fury.io/py/ITU-Turkish-NLP-Pipeline-Caller.svg)](https://badge.fury.io/py/ITU-Turkish-NLP-Pipeline-Caller) [![Join the chat at https://gitter.im/freecodecamp/freecodecamp](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller)
+[![Code Climate](https://codeclimate.com/repos/56cfa501ad79a2007200223c/badges/b00952887ea78d6f57da/gpa.svg)](https://codeclimate.com/repos/56cfa501ad79a2007200223c/feed) [![Issue Count](https://codeclimate.com/repos/56cfa501ad79a2007200223c/badges/b00952887ea78d6f57da/issue_count.svg)](https://codeclimate.com/repos/56cfa501ad79a2007200223c/feed)
 
  A Python3 wrapper tool to use [ITU Turkish NLP Pipeline API](http://tools.nlp.itu.edu.tr/)
 
