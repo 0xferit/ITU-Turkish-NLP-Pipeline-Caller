@@ -38,7 +38,7 @@ class Test(unittest.TestCase):
             response = caller.call()
             
             print(response)
-            assert len(re.findall(r1, response)) == 2 && len(re.findall(r2, response)) == 1
+            assert len(re.findall(r1, response)) == 2 and len(re.findall(r2, response)) == 1
         except:
             self.fail('Exception thrown')
     
