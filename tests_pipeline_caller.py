@@ -2,6 +2,7 @@
 
 import pipeline_caller
 import unittest
+import os
 
 class Test(unittest.TestCase):
 
