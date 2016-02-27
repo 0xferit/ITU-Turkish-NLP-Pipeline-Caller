@@ -11,14 +11,14 @@ class Test(unittest.TestCase):
 
         try:
 
-            caller = pipeline_caller.PipelineCaller('pipelineNoisy', 'test sentence', os.environ['pipeline_token'], 'whole')
+            caller = pipeline_caller.PipelineCaller('pipelineNisy', 'test sentence', os.environ['pipeline_token'], 'whole')
             
             r = re.compile(r'(\d+)(\t.+?){7,}')
             
             response = caller.call()
             
             print(response)
-            print(re.match(r, response))
+            assert re.match(r, response)) != None
         except:
             self.fail('Exception thrown')
     
