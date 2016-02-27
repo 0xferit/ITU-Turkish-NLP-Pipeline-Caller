@@ -7,8 +7,8 @@ class Test(unittest.TestCase):
 
     def module_exception_test(self):
         try:
-            caller = pipeline_caller.PipelineCaller('pipelineNoisy', 'test sentence', 'random token', 'whole')
-            caller.call()
+            caller = pipeline_caller.PipelineCaller('pipelineNoisy', 'test sentence', os.environ['pipeline_token'], 'whole')
+            print(caller.call())
         except:
             self.fail('Exception thrown')
     
@@ -17,6 +17,8 @@ class Test(unittest.TestCase):
             exec(open('./pipeline_caller.py').read())
         except:
             self.fail('Exception thrown')
+
+
 
 if __name__ == '__main__':
     unittest.main()
