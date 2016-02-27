@@ -94,8 +94,8 @@ class PipelineCaller:
     
     def request(self, params):
         try:
-            response = urllib.request.urlopen(PipelineCaller.API_URL, params)
-            return response.read().decode(PipelineCaller.PIPELINE_ENCODING)
+            response = urllib.request.urlopen(self.API_URL, params)
+            return response.read().decode(self.PIPELINE_ENCODING)
         except:
             raise
 
