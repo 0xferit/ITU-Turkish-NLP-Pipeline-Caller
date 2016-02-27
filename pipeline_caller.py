@@ -47,7 +47,6 @@ class PipelineCaller:
         self.token = token
         self.processing_type = processing_type
 
-
     def call(self):
 
         if self.processing_type=='whole':
@@ -160,7 +159,7 @@ def main(args=None):
     start_time = time.time()
 
     caller = PipelineCaller(args.tool, text, token, args.processing_type)
-    with open(output_path, 'w', encoding=args.encoding) as output_file:    
+    with open(output_path, 'w', encoding=args.encoding) as output_file:
         output_file.write("{}\n".format(caller.call()))
     print("[DONE] It took {0} seconds to process whole text.".format(str(time.time()-start_time).split('.')[0]))
 
