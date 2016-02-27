@@ -46,40 +46,25 @@ class PipelineCaller:
         self.text = text
         self.token = token
         self.processing_type = processing_type
-
+    
     def call(self):
 
         if self.processing_type=='whole':
-
-            params = urllib.parse.urlencode({'tool': self.tool, 'input': self.text, 'token': self.token}).encode(self.PIPELINE_ENCODING)
-            try:
-                result = urllib.request.urlopen(self.API_URL, params)
-                return result.read().decode(self.PIPELINE_ENCODING)
-            except:
-                raise
+            params = self.encodeParams(self.tool, self.text, self.token)
+            return self.request(params)
 
         if processing_type=='sentence':
-
-            output = ''
+            output = '' 
             for sentence in self.getSentences():
-                params = urllib.parse.urlencode({'tool': self.tool, 'input': sentence, 'token': self.token}).encode(self.PIPELINE_ENCODING)
-                try:
-                    result = urllib.request.urlopen(self.API_URL, params)
-                    output += result.read().decode(self.PIPELINE_ENCODING)
-                except:
-                    raise
+                params = self.encodeParams(self.tool, self.text, self.token)
+                output += self.request(params)
             return output
 
         if processing_type=='word':
-
             output = ''
             for word in self.getWords():
-                params = urllib.parse.urlencode({'tool': self.tool, 'input': word, 'token': self.token}).encode(self.PIPELINE_ENCODING)
-                try:
-                    result = urllib.request.urlopen(self.API_URL, params)
-                    output += result.read().decode(self.PIPELINE_ENCODING)
-                except:
-                    raise
+                params = self.encodeParams(self.tool, self.text, self.token)
+                output += self.request(params)
             return output
 
     def getSentences(self):
@@ -94,7 +79,15 @@ class PipelineCaller:
     def getWords(self):
         return self.getSentences().split()
 
-
+    def encodeParams(self, tool, text, token):
+        return urllib.parse.urlencode({'tool': self.tool, 'input': self.text, 'token': self.token}).encode(self.PIPELINE_ENCODING)
+    
+    def request(self, params):
+        try:
+            response = urllib.request.urlopen(self.API_URL, params)
+            return response.read().decode(self.PIPELINE_ENCODING)
+        except:
+            raise
 
 def __readInput(path, encoding):
     try:
