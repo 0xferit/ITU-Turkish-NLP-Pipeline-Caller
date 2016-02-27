@@ -20,7 +20,7 @@ class Test(unittest.TestCase):
             response = caller.call()
             
             print(response)
-            assert len(re.findall(r, response)) == 28
+            assert len(re.findall(r, response)) == 29
         except:
             self.fail('Exception thrown')
     
