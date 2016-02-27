@@ -1,24 +1,25 @@
 #!/usr/bin/python3
 
 name = 'ITU Turkish NLP Pipeline Caller'
+
 __copyright__ = '__copyright__ 2015 Ferit Tunçer'
 
 __license__ = 'GPLv2\n\
 This program is free software; you can redistribute it and/or \
-modify it under the terms of the GNU General Public __license__ version 2 \
+modify it under the terms of the GNU General Public license version 2 \
 as published by the Free Software Foundation. \
 This program is distributed in the hope that it will be useful, \
 but WITHOUT ANY WARRANTY; without even the implied warranty of \
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the \
-GNU General Public __license__ for more details. \
-You should have received a copy of the GNU General Public __license__ \
-along with this program.  If not, see <http://www.gnu.org/__license__s/>.'
+GNU General Public license for more details. \
+You should have received a copy of the GNU General Public license \
+along with this program.  If not, see <http://www.gnu.org/licenses/>.'
 
-__author__ = 'Ferit Tunçer'
+author = 'Ferit Tunçer'
 email = 'ferit.tuncer@autistici.org'
 website = 'https://github.com/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller'
 
-version = '2.2.0'
+version = '3.0.0'
 
 import sys
 import urllib.request
@@ -172,6 +173,8 @@ def main(args=None):
         print('[DONE] It took {0} seconds to process whole text.'.format(str(time.time()-start_time).split('.')[0]))
     if args.processing_type == 'words':
         print('[DONE] It took {0} seconds to process whole text.'.format(str(time.time()-start_time).split('.')[0]))
+    
+    
 
 
 if __name__ == '__main__':
