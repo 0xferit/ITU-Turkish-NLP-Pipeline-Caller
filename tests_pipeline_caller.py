@@ -22,6 +22,21 @@ class Test(unittest.TestCase):
         except:
             self.fail('Exception thrown')
     
+    def module_exception_test2(self):
+
+        try:
+
+            caller = pipeline_caller.PipelineCaller('pipelineNoisy', 'test sentence', os.environ['pipeline_token'], 'whole')
+            
+            r = re.compile(r'(\d+)(\t.+?){7,}')
+            
+            response = caller.call()
+            
+            print(response)
+            assert re.match(r, response)) != None
+        except:
+            self.fail('Exception thrown')
+            
     def tool_exception_test(self):
         try:
             exec(open('./pipeline_caller.py').read())
