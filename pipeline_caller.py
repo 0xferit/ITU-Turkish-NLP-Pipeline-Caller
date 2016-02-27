@@ -86,7 +86,7 @@ class PipelineCaller:
                 self.words.append(word)
         for i in self.words:
             print(i)
-            
+
         self.word_count = len(self.words)
 
     def encodeParams(self, tool, text, token):
