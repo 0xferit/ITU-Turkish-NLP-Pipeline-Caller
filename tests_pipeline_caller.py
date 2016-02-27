@@ -3,6 +3,7 @@
 import pipeline_caller
 import unittest
 import os
+import re
 
 class Test(unittest.TestCase):
 
