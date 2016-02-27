@@ -38,7 +38,7 @@ class PipelineCaller:
     API_URL = 'http://tools.nlp.itu.edu.tr/SimpleApi'
     PIPELINE_ENCODING = 'UTF-8'
 
-    DEFULT_SENTENCE_SPLIT_DELIMITER_CLASS = '[\.\?:;!]'
+    DEFAULT_SENTENCE_SPLIT_DELIMITER_CLASS = '[\.\?:;!]'
 
 
     def __init__(self, tool='pipelineNoisy', text ='example', token='invalid', processing_type='whole'):
@@ -53,22 +53,25 @@ class PipelineCaller:
             params = self.encodeParams(self.tool, self.text, self.token)
             return self.request(params)
 
-        if processing_type=='sentence':
+        if self.processing_type=='sentence':
             output = '' 
+            self.parseSentences()
             for sentence in self.sentences:
-                params = self.encodeParams(self.tool, self.text, self.token)
-                output += self.request(params)
+                print(sentence + "\n")
+                params = self.encodeParams(self.tool, sentence, self.token)
+                output += self.request(params) + '\n'
             return output
 
-        if processing_type=='word':
+        if self.processing_type=='word':
             output = ''
-            for word in self.words():
-                params = self.encodeParams(self.tool, self.text, self.token)
-                output += self.request(params)
+            self.parseWords()
+            for word in self.words:
+                params = self.encodeParams(self.tool, word, self.token)
+                output += self.request(params) + '\n'
             return output
 
     def parseSentences(self):
-        r = re.compile(r'(?<=(?:{}))\s+'.format(DEFULT_SENTENCE_SPLIT_DELIMITER_CLASS))
+        r = re.compile(r'(?<=(?:{}))\s+'.format(PipelineCaller.DEFAULT_SENTENCE_SPLIT_DELIMITER_CLASS))
         self.sentences = r.split(self.text)
         sentence_count = len(self.sentences)
         if re.match('^\s*$', self.sentences[sentence_count-1]):
@@ -76,16 +79,23 @@ class PipelineCaller:
         self.sentence_count = len(self.sentences)
 
     def parseWords(self):
-        self.words = self.getSentences().split()
+        self.parseSentences()
+        self.words = []
+        for sentence in self.sentences:
+            for word in sentence.split():
+                self.words.append(word)
+        for i in self.words:
+            print(i)
+            
         self.word_count = len(self.words)
 
     def encodeParams(self, tool, text, token):
-        return urllib.parse.urlencode({'tool': self.tool, 'input': self.text, 'token': self.token}).encode(self.PIPELINE_ENCODING)
+        return urllib.parse.urlencode({'tool': self.tool, 'input': text, 'token': self.token}).encode(self.PIPELINE_ENCODING)
     
     def request(self, params):
         try:
-            response = urllib.request.urlopen(self.API_URL, params)
-            return response.read().decode(self.PIPELINE_ENCODING)
+            response = urllib.request.urlopen(PipelineCaller.API_URL, params)
+            return response.read().decode(PipelineCaller.PIPELINE_ENCODING)
         except:
             raise
 
