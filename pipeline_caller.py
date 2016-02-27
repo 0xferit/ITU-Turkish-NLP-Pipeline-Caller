@@ -46,7 +46,7 @@ class PipelineCaller:
         self.text = text
         self.token = token
         self.processing_type = processing_type
-    
+
 
     def call(self):
 
