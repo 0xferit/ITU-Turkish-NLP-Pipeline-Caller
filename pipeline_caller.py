@@ -141,7 +141,7 @@ def __parseArguments():
     parser.add_argument("-e", "--encoding", dest="encoding", metavar="E", default=DEFAULT_ENCODING, help="force I/O to use given encoding, instead of default locale")
     parser.add_argument("-o", "--output", metavar="O", dest="output_dir", default=DEFAULT_OUTPUT_DIR, help="change output directory, \"{}\" by default".format(DEFAULT_OUTPUT_DIR))
     parser.add_argument('--version', action='version', version='{} {}'.format(name, version), help="version information")
-    parser.add_argument('--__license__', action='version', version='{}'.format(__license__), help="__license__ information")
+    parser.add_argument('--license', action='version', version='{}'.format(__license__), help="license information")
 
 
     return parser.parse_args()
