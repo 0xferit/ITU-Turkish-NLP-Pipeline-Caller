@@ -55,29 +55,29 @@ class PipelineCaller:
 
         if processing_type=='sentence':
             output = '' 
-            for sentence in self.getSentences():
+            for sentence in self.sentences:
                 params = self.encodeParams(self.tool, self.text, self.token)
                 output += self.request(params)
             return output
 
         if processing_type=='word':
             output = ''
-            for word in self.getWords():
+            for word in self.words():
                 params = self.encodeParams(self.tool, self.text, self.token)
                 output += self.request(params)
             return output
 
-    def getSentences(self):
+    def parseSentences(self):
         r = re.compile(r'(?<=(?:{}))\s+'.format(DEFULT_SENTENCE_SPLIT_DELIMITER_CLASS))
-        sentences = r.split(self.text)
-        sentence_count = len(sentences)
-        if re.match('^\s*$', sentences[sentence_count-1]):
-            sentences.pop(sentence_count-1)
-        sentence_count = len(sentences)
-        return sentences
+        self.sentences = r.split(self.text)
+        sentence_count = len(self.sentences)
+        if re.match('^\s*$', self.sentences[sentence_count-1]):
+            self.sentences.pop(sentence_count-1)
+        self.sentence_count = len(self.sentences)
 
-    def getWords(self):
-        return self.getSentences().split()
+    def parseWords(self):
+        self.words = self.getSentences().split()
+        self.word_count = len(self.words)
 
     def encodeParams(self, tool, text, token):
         return urllib.parse.urlencode({'tool': self.tool, 'input': self.text, 'token': self.token}).encode(self.PIPELINE_ENCODING)
@@ -154,7 +154,13 @@ def main(args=None):
     caller = PipelineCaller(args.tool, text, token, args.processing_type)
     with open(output_path, 'w', encoding=args.encoding) as output_file:
         output_file.write('{}\n'.format(caller.call()))
-    print('[DONE] It took {0} seconds to process whole text.'.format(str(time.time()-start_time).split('.')[0]))
+    
+    if args.processing_type == 'whole':
+        print('[DONE] It took {0} seconds to process whole text.'.format(str(time.time()-start_time).split('.')[0]))
+    if args.processing_type == 'sentence':
+        print('[DONE] It took {0} seconds to process whole text.'.format(str(time.time()-start_time).split('.')[0]))
+    if args.processing_type == 'words':
+        print('[DONE] It took {0} seconds to process whole text.'.format(str(time.time()-start_time).split('.')[0]))
 
 
 if __name__ == '__main__':
