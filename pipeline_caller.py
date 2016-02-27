@@ -163,6 +163,9 @@ def main(args=None):
     with open(output_path, 'w', encoding=args.encoding) as output_file:
         output_file.write('{}\n'.format(caller.call()))
     
+    if (args.tool == 'isturkish' or args.tool == 'Vowelizer') and args.processing_type != 'word':
+        __conditional_info('[WARNING] ' +args.tool + ' accepts one word in a call, if you think the output is wrong, please try with `-p word` option.', args.quiet)
+    
     if args.processing_type == 'whole':
         print('[DONE] It took {0} seconds to process whole text.'.format(str(time.time()-start_time).split('.')[0]))
     if args.processing_type == 'sentence':
