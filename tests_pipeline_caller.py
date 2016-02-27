@@ -18,7 +18,7 @@ class Test(unittest.TestCase):
             response = caller.call()
             
             print(response)
-            assert re.match(r, response)) != None
+            assert re.match(r, response) != None
         except:
             self.fail('Exception thrown')
     
@@ -33,7 +33,7 @@ class Test(unittest.TestCase):
             response = caller.call()
             
             print(response)
-            assert re.match(r, response)) != None
+            assert re.match(r, response) != None
         except:
             self.fail('Exception thrown')
             
