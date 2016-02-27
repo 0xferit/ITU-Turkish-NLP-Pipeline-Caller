@@ -7,22 +7,7 @@ import re
 
 class Test(unittest.TestCase):
 
-    def module_exception_test(self):
-
-        try:
-
-            caller = pipeline_caller.PipelineCaller('pipelineNisy', 'test sentence', os.environ['pipeline_token'], 'whole')
-            
-            r = re.compile(r'(\d+)(\t.+?){7,}')
-            
-            response = caller.call()
-            
-            print(response)
-            assert re.match(r, response) != None
-        except:
-            self.fail('Exception thrown')
-    
-    def module_exception_test2(self):
+    def module_pipelineNoisy_test(self):
 
         try:
 
@@ -36,6 +21,8 @@ class Test(unittest.TestCase):
             assert re.match(r, response) != None
         except:
             self.fail('Exception thrown')
+    
+
             
     def tool_exception_test(self):
         try:
