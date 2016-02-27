@@ -29,26 +29,71 @@ import argparse
 import re
 import locale
 
-#++ DEFAULTS
-token_path = "pipeline.token"
-default_encoding = locale.getpreferredencoding(False)
-default_sentence_split_delimiter_class = "[\.\?:;!]"
-default_output_dir = "output"
-api_url = "http://tools.nlp.itu.edu.tr/SimpleApi"
-pipeline_encoding = 'UTF-8'
-#-- DEFAULTS
-
+TOKEN_PATH = "pipeline.token"
 
 class PipelineCaller:
 
-    def call(self, tool='pipelineNoisy', text ='example', token='invalid'):
-        params = urllib.parse.urlencode({'tool': tool, 'input': text, 'token': token}).encode(pipeline_encoding)
-        try:
-            
-            result = urllib.request.urlopen(api_url, params)
-            return result.read().decode(pipeline_encoding)
-        except:
-            raise
+
+    DEFAULT_ENCODING = locale.getpreferredencoding(False)
+    DEFULT_SENTENCE_SPLIT_DELIMITER_CLASS = "[\.\?:;!]"
+    DEFAULT_OUTPUT_DIR = "output"
+    API_URL = "http://tools.nlp.itu.edu.tr/SimpleApi"
+    PIPELINE_ENCODING = 'UTF-8'
+
+    def __init__(self, tool='pipelineNoisy', text ='example', token='invalid', processing_type='whole'):
+        self.tool = tool
+        self.text = text
+        self.token = token
+        self.processing_type = processing_type
+    
+
+    def call(self):
+
+        if self.processing_type=='whole':
+
+            params = urllib.parse.urlencode({'tool': self.tool, 'input': self.text, 'token': self.token}).encode(self.PIPELINE_ENCODING)
+            try:
+                result = urllib.request.urlopen(self.API_URL, params)
+                return result.read().decode(self.PIPELINE_ENCODING)
+            except:
+                raise
+
+        if processing_type=='sentence':
+
+            output = ""
+            for sentence in self.getSentences():
+                params = urllib.parse.urlencode({'tool': self.tool, 'input': sentence, 'token': self.token}).encode(self.PIPELINE_ENCODING)
+                try:
+                    result = urllib.request.urlopen(self.API_URL, params)
+                    output += result.read().decode(self.PIPELINE_ENCODING)
+                except:
+                    raise
+            return output
+
+        if processing_type=='word':
+
+            output = ""
+            for word in self.getWords():
+                params = urllib.parse.urlencode({'tool': self.tool, 'input': word, 'token': self.token}).encode(self.PIPELINE_ENCODING)
+                try:
+                    result = urllib.request.urlopen(self.API_URL, params)
+                    output += result.read().decode(self.PIPELINE_ENCODING)
+                except:
+                    raise
+            return output
+
+    def getSentences(self):
+        r = re.compile(r'(?<=(?:{}))\s+'.format(DEFULT_SENTENCE_SPLIT_DELIMITER_CLASS))
+        sentences = r.split(full_text)
+        sentence_count = len(sentences)
+        if re.match("^\s*$", sentences[sentence_count-1]):
+            sentences.pop(sentence_count-1)
+        sentence_count = len(sentences)
+        return sentences
+
+    def getWords(self):
+        return self.getSentences().split()
+
 
 
 def __readInput(path, encoding):
@@ -57,19 +102,13 @@ def __readInput(path, encoding):
             full_text = ""
             for line in input_file:
                 full_text += line
-        r = re.compile(r'(?<=(?:{}))\s+'.format(default_sentence_split_delimiter_class))
-        sentences = r.split(full_text)
-        sentence_count = len(sentences)
-        if re.match("^\s*$", sentences[sentence_count-1]):
-            sentences.pop(sentence_count-1)
-        sentence_count = len(sentences)
-        return full_text, sentences, sentence_count
+        return full_text
     except:
         raise
 
 def __readToken():
     try:
-        token_file = open(token_path)
+        token_file = open(TOKEN_PATH)
         token = token_file.readline().strip()
         return token
     except:
@@ -98,8 +137,8 @@ def __parseArguments():
     arg_parser.add_argument('-p', '--processing-type', dest='processing_type', choices=['word', 'sentence', 'whole'], default='whole', help='Switches processing type, default is whole text at once. Alternatively, word by word or sentence by sentence processing can be selected.')
     arg_parser.add_argument("-q", "--quiet", dest="quiet", action="store_true", help="no info during process")
     arg_parser.add_argument("--tool", dest="tool", default="pipelineNoisy", choices=["ner", "morphanalyzer", "isturkish",  "morphgenerator", "tokenizer", "normalize", "deasciifier", "Vowelizer", "DepParserFormal", "DepParserNoisy", "spellcheck", "disambiguator", "pipelineFormal", "pipelineNoisy"], help="Switches pipeline tool which is \"pipelineNoisy\" by default")
-    arg_parser.add_argument("-e", "--encoding", dest="encoding", metavar="E", default=default_encoding, help="force I/O to use given encoding, instead of default locale")
-    arg_parser.add_argument("-o", "--output", metavar="O", dest="output_dir", default=default_output_dir, help="change output directory, \"{}\" by default".format(default_output_dir))
+    arg_parser.add_argument("-e", "--encoding", dest="encoding", metavar="E", default=PipelineCaller.DEFAULT_ENCODING, help="force I/O to use given encoding, instead of default locale")
+    arg_parser.add_argument("-o", "--output", metavar="O", dest="output_dir", default=PipelineCaller.DEFAULT_OUTPUT_DIR, help="change output directory, \"{}\" by default".format(PipelineCaller.DEFAULT_OUTPUT_DIR))
     arg_parser.add_argument('--version', action='version', version='{} {}'.format(name, version), help="version information")
     arg_parser.add_argument('--license', action='version', version='{}'.format(license), help="license information")
 
@@ -111,7 +150,7 @@ def main(args=None):
         args = sys.argv[1:]
         
     args = __parseArguments()
-    full_text, sentences, sentence_count = __readInput(args.filename, args.encoding)
+    full_text = __readInput(args.filename, args.encoding)
     output_path = __getOutputPath(args.output_dir)
     token = __readToken()
     __conditional_info("[INFO] Pipeline tool: {}".format(args.tool), args.quiet)
@@ -119,30 +158,11 @@ def main(args=None):
     __conditional_info("[INFO] Output destination: .{}{}".format(os.sep, output_path), args.quiet)
     start_time = time.time()
 
-    caller = PipelineCaller()
-    if args.processing_type == 'sentence':
-        __conditional_info("[INFO] Processing sentence by sentence", args.quiet)
-        with open(output_path, 'w', encoding=args.encoding) as output_file:
-            for sentence in sentences:
-                output_file.write("{0}\n".format(caller.call(args.tool, sentence, token)))
-        print("[DONE] It took {0} seconds to process all {1} sentences.".format(str(time.time()-start_time).split('.')[0], sentence_count))
+    caller = PipelineCaller(args.tool, full_text, token, args.processing_type)
+    with open(output_path, 'w', encoding=args.encoding) as output_file:    
+        output_file.write("{}\n".format(caller.call()))
+    print("[DONE] It took {0} seconds to process whole text.".format(str(time.time()-start_time).split('.')[0]))
 
-    if args.processing_type == 'word':
-        __conditional_info("[INFO] Processing word by word", args.quiet)
-        word_count = 0
-        with open(output_path, 'w', encoding=args.encoding) as output_file:
-            for sentence in sentences:
-                for word in sentence.split():
-                    output_file.write("{0}\n".format(caller.call(args.tool, word, token)))
-                    word_count += 1
-        print("[DONE] It took {0} seconds to process all {1} words.".format(str(time.time()-start_time).split('.')[0], word_count))
-
-
-    if args.processing_type == 'whole':
-        __conditional_info("[INFO] Processing all the text at once", args.quiet)
-        with open(output_path, 'w', encoding=args.encoding) as output_file:
-            output_file.write("{0}\n".format(caller.call(args.tool, full_text, token)))
-        print("[DONE] It took {0} seconds to process whole text.".format(str(time.time()-start_time).split('.')[0]))
 
 if __name__ == '__main__':
     main()
