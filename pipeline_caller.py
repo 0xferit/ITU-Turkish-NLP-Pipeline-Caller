@@ -85,7 +85,7 @@ class PipelineCaller:
 
     def getSentences(self):
         r = re.compile(r'(?<=(?:{}))\s+'.format(DEFULT_SENTENCE_SPLIT_DELIMITER_CLASS))
-        sentences = r.split(text)
+        sentences = r.split(self.text)
         sentence_count = len(sentences)
         if re.match("^\s*$", sentences[sentence_count-1]):
             sentences.pop(sentence_count-1)
