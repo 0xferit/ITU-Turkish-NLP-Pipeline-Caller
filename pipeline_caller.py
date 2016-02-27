@@ -57,7 +57,6 @@ class PipelineCaller:
             output = ''
             self.parseSentences()
             for sentence in self.sentences:
-                print(sentence + "\n")
                 params = self.encodeParams(self.tool, sentence, self.token)
                 output += self.request(params) + '\n'
             return output
@@ -84,9 +83,6 @@ class PipelineCaller:
         for sentence in self.sentences:
             for word in sentence.split():
                 self.words.append(word)
-        for i in self.words:
-            print(i)
-
         self.word_count = len(self.words)
 
     def encodeParams(self, tool, text, token):
@@ -160,6 +156,8 @@ def main(args=None):
     __conditional_info('[INFO] File I/O encoding: {}'.format(args.encoding), args.quiet)
     __conditional_info('[INFO] Output destination: .{}{}'.format(os.sep, output_path), args.quiet)
     start_time = time.time()
+
+
 
     caller = PipelineCaller(args.tool, text, token, args.processing_type)
     with open(output_path, 'w', encoding=args.encoding) as output_file:
