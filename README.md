@@ -1,5 +1,6 @@
 # ITU Turkish NLP Pipeline Caller 
-[![Build Status](https://travis-ci.org/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller.svg?branch=master)](https://travis-ci.org/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller) [![PyPI version](https://badge.fury.io/py/ITU-Turkish-NLP-Pipeline-Caller.svg)](https://badge.fury.io/py/ITU-Turkish-NLP-Pipeline-Caller) [![Join the chat at https://gitter.im/freecodecamp/freecodecamp](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller)
+[![Build Status](https://travis-ci.org/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller.svg?branch=master)](https://travis-ci.org/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller) [![PyPI version](https://badge.fury.io/py/ITU-Turkish-NLP-Pipeline-Caller.svg)](https://badge.fury.io/py/ITU-Turkish-NLP-Pipeline-Caller) [![Join the chat at https://gitter.im/freecodecamp/freecodecamp](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller)   [![Codacy Badge](https://api.codacy.com/project/badge/grade/6368b6f3c39d4199b2ed162b79944a27)](https://www.codacy.com/app/ferit-tuncer/ITU-Turkish-NLP-Pipeline-Caller)
+[![Code Climate](https://codeclimate.com/repos/56cfa501ad79a2007200223c/badges/b00952887ea78d6f57da/gpa.svg)](https://codeclimate.com/repos/56cfa501ad79a2007200223c/feed) [![Issue Count](https://codeclimate.com/repos/56cfa501ad79a2007200223c/badges/b00952887ea78d6f57da/issue_count.svg)](https://codeclimate.com/repos/56cfa501ad79a2007200223c/feed)
 
  A Python3 wrapper tool to use [ITU Turkish NLP Pipeline API](http://tools.nlp.itu.edu.tr/)
 
@@ -29,12 +30,15 @@ Simply
 reads the input file, prints the output under `./output/output<system_time>`
 
 You can select the pipeline tool by using `-t` option
-`pipeline_caller <filename> -t <tool_name>`
+`pipeline_caller <filename> --tool <tool_name>`
 default is "pipelineNoisy"
 
 You can force the encoding for I/O by using `-e` option
 `pipeline_caller <filename> -e <encoding>`
 default is your system locale
+
+You can switch processing type using `-p` option. Input text can be processed whole at once, sentence by sentence or word by word. For some tools (`isturkish` for example) in the Pipeline, word by word processing is necessary at the moment. Default type is whole at once.
+Example: `pipeline_caller <filename> --tool isturkish -p word` sends input text to `isturkish` tool, word by word.
 
 And you can change the output directory by using `-o` option
 `pipeline_caller <filename> -o <another_directory>`
@@ -83,3 +87,7 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/ferittuncer/itu-turkish-nlp-pipeline-caller/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
