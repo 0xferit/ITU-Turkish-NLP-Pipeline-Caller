@@ -46,7 +46,7 @@ class PipelineCaller:
         self.text = text
         self.token = token
         self.processing_type = processing_type
-    
+
     def call(self):
 
         if self.processing_type=='whole':
@@ -54,7 +54,7 @@ class PipelineCaller:
             return self.request(params)
 
         if self.processing_type=='sentence':
-            output = '' 
+            output = ''
             self.parseSentences()
             for sentence in self.sentences:
                 print(sentence + "\n")
