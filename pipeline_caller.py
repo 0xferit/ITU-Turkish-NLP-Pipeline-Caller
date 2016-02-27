@@ -1,18 +1,18 @@
 #!/usr/bin/python3
 
 name = "ITU Turkish NLP Pipeline Caller"
-__copyright = "Copyright 2015 Ferit Tunçer"
+__copyright__ = "__copyright__ 2015 Ferit Tunçer"
 
-license = "GPLv2\n\
+__license__ = "GPLv2\n\
 This program is free software; you can redistribute it and/or \
-modify it under the terms of the GNU General Public License version 2 \
+modify it under the terms of the GNU General Public __license__ version 2 \
 as published by the Free Software Foundation. \
 This program is distributed in the hope that it will be useful, \
 but WITHOUT ANY WARRANTY; without even the implied warranty of \
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the \
-GNU General Public License for more details. \
-You should have received a copy of the GNU General Public License \
-along with this program.  If not, see <http://www.gnu.org/licenses/>."
+GNU General Public __license__ for more details. \
+You should have received a copy of the GNU General Public __license__ \
+along with this program.  If not, see <http://www.gnu.org/__license__s/>."
 
 __author__ = "Ferit Tunçer"
 email = "ferit.tuncer@autistici.org"
@@ -132,7 +132,7 @@ def __parseArguments():
     #epilog section is free now
     parser = argparse.ArgumentParser(
     formatter_class=argparse.RawDescriptionHelpFormatter,
-    description="ITU Turkish NLP Pipeline Caller v{}\n{} <{}>\n{}".format(version, author, email, website),
+    description="ITU Turkish NLP Pipeline Caller v{}\n{} <{}>\n{}".format(version, __author__, email, website),
     add_help=True)
     parser.add_argument("filename", help="relative input filepath")
     parser.add_argument('-p', '--processing-type', dest='processing_type', choices=['word', 'sentence', 'whole'], default='whole', help='Switches processing type, default is whole text at once. Alternatively, word by word or sentence by sentence processing can be selected.')
@@ -141,7 +141,7 @@ def __parseArguments():
     parser.add_argument("-e", "--encoding", dest="encoding", metavar="E", default=DEFAULT_ENCODING, help="force I/O to use given encoding, instead of default locale")
     parser.add_argument("-o", "--output", metavar="O", dest="output_dir", default=DEFAULT_OUTPUT_DIR, help="change output directory, \"{}\" by default".format(DEFAULT_OUTPUT_DIR))
     parser.add_argument('--version', action='version', version='{} {}'.format(name, version), help="version information")
-    parser.add_argument('--license', action='version', version='{}'.format(license), help="license information")
+    parser.add_argument('--__license__', action='version', version='{}'.format(__license__), help="__license__ information")
 
 
     return parser.parse_args()
