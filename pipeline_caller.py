@@ -131,7 +131,7 @@ def __parseArguments():
     #epilog section is free now
     parser = argparse.ArgumentParser(
     formatter_class=argparse.RawDescriptionHelpFormatter,
-    description='ITU Turkish NLP Pipeline Caller v{}\n{} <{}>\n{}'.format(version, __author__, email, website),
+    description='ITU Turkish NLP Pipeline Caller v{}\n{} <{}>\n{}'.format(version, author, email, website),
     add_help=True)
     parser.add_argument('filename', help='relative input filepath')
     parser.add_argument('-p', '--processing-type', dest='processing_type', choices=['word', 'sentence', 'whole'], default='whole', help='Switches processing type, default is whole text at once. Alternatively, word by word or sentence by sentence processing can be selected.')
@@ -171,7 +171,7 @@ def main(args=None):
         print('[DONE] It took {0} seconds to process whole text.'.format(str(time.time()-start_time).split('.')[0]))
     if args.processing_type == 'sentence':
         print('[DONE] It took {0} seconds to process whole text.'.format(str(time.time()-start_time).split('.')[0]))
-    if args.processing_type == 'words':
+    if args.processing_type == 'word':
         print('[DONE] It took {0} seconds to process whole text.'.format(str(time.time()-start_time).split('.')[0]))
     
     
