@@ -34,7 +34,7 @@ TOKEN_PATH = 'pipeline.token'
 DEFAULT_ENCODING = locale.getpreferredencoding(False)
 DEFAULT_OUTPUT_DIR = 'output'
 
-class PipelineCaller:
+class PipelineCaller(object):
 
     API_URL = 'http://tools.nlp.itu.edu.tr/SimpleApi'
     PIPELINE_ENCODING = 'UTF-8'
