@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-name = 'ITU Turkish NLP Pipeline Caller'
+name = 'ITU Turkish NLP Pipeline Caller' 
 
 __copyright__ = '__copyright__ 2015 Ferit Tunçer'
 
