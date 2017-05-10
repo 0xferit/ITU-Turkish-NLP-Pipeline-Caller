@@ -64,8 +64,6 @@ target/
 #Output Files
 pipeline_caller_output
 
-#Input Files
-*.txt
 
 #Token file
 *.token
