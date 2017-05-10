@@ -7,3 +7,6 @@ install: pip install codecov
 #script: coverage run tests_pipeline_caller.py
 script: nosetests -v --with-coverage --nocapture tests_pipeline_caller.py
 
+after_success:
+  - codecov
+
