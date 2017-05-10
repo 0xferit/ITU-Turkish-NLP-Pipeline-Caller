@@ -75,7 +75,7 @@ class Test(unittest.TestCase):
 
         try:
             #subprocess.Popen("python3 pipeline_caller.py katana.txt")
-            script_path = "/home/f/Repos/ITU-Turkish-NLP-Pipeline-Caller/pipeline_caller.py"
+            script_path = "./pipeline_caller.py"
             subprocess.check_call([sys.executable or 'python3', script_path, "katana.txt"],
                        cwd=os.path.dirname(script_path))
         except:
