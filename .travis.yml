@@ -4,4 +4,4 @@ python:
 # command to run tests
 #script: nosetests -v --nocapture tests_pipeline_caller.py
 install: pip install codecov
-script: coverage run tests.py
+script: coverage run tests_pipeline_caller.py
