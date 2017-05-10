@@ -76,7 +76,7 @@ class Test(unittest.TestCase):
         try:
             #subprocess.Popen("python3 pipeline_caller.py katana.txt")
             script_path = "./pipeline_caller.py"
-            subprocess.check_call([sys.executable or 'python3', script_path, "katana.txt"],
+            subprocess.check_call([sys.executable or 'python3', script_path, "test_inputs/katana.txt"],
                        cwd=os.path.dirname(script_path))
         except:
             print ("Unexpected error:", sys.exc_info()[0])
