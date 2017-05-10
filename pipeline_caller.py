@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+#-*- coding: utf-8 -*-
 
 name = 'ITU Turkish NLP Pipeline Caller' 
 
@@ -21,14 +22,15 @@ website = 'https://github.com/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller'
 
 version = '3.0.0'
 
-import sys
-import urllib.request
-import urllib.parse
-import time
-import os.path
 import argparse
-import re
 import locale
+import os.path
+import re
+import sys
+import time
+
+import urllib.parse
+import urllib.request
 
 TOKEN_PATH = 'pipeline.token'
 DEFAULT_ENCODING = locale.getpreferredencoding(False)
