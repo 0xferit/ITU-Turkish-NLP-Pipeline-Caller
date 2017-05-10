@@ -2,6 +2,6 @@ language: python
 python:
   - "3.4"
 # command to run tests
-script: nosetests -v --nocapture tests_pipeline_caller.py
+#script: nosetests -v --nocapture tests_pipeline_caller.py
 install: pip install codecov
-script: codecov
+script: coverage run tests.py
