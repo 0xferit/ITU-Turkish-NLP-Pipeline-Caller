@@ -18,7 +18,7 @@ To be able to use the pipeline, you need an **authentication token** (details on
 If you experience any problem please contact with me via email (see author section), or preferably via the [gitter chat room](https://gitter.im/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller).
 ### Setup
 #### Recommended way
-Using [PyPI](https://pypi.python.org/pypi) `pip3 install ITU-Turkish-NLP-Pipeline-Caller`
+Using [PyPI](https://pypi.python.org/pypi) just run `pip3 install ITU-Turkish-NLP-Pipeline-Caller`
 
 #### Alternative way
 Download the latest [release](https://github.com/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller/releases), extract the archive and inside that directory simply run `python3 ./setup.py install` to install.
