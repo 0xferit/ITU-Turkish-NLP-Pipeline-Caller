@@ -75,7 +75,7 @@ Special thanks to [Asst. Prof. Dr. Peter Schüller](https://github.com/peschue) 
 ## Author, Copyright & License
 This work is a part of a [KnowLP](http://www.knowlp.com) research project.
 
-Copyright 2015 Ferit Tunçer, <ferit.tuncer@autistici.org>
+Copyright 2015-2017 Ferit Tunçer, <ferit@lavabit.com>
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 2
