@@ -3,7 +3,7 @@
 
 name = 'ITU Turkish NLP Pipeline Caller' 
 
-__copyright__ = '__copyright__ 2015 Ferit Tunçer'
+__copyright__ = '__copyright__ 2015-2017 Ferit Tunçer'
 
 __license__ = 'GPLv2\n\
 This program is free software; you can redistribute it and/or \
@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public license \
 along with this program.  If not, see <http://www.gnu.org/licenses/>.'
 
 author = 'Ferit Tunçer'
-email = 'ferit.tuncer@autistici.org'
+email = 'ferit@lavabit.com'
 website = 'https://github.com/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller'
 
 version = '3.0.0'
