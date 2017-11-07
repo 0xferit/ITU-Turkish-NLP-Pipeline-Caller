@@ -8,7 +8,6 @@
  A Python3 wrapper tool to help using [ITU Turkish NLP Pipeline API](http://tools.nlp.itu.edu.tr/)
 
 
-
 For details of the pipeline, please check the pipeline page and the sources below.
 
 [Eryigit, Gülsen. "ITU Turkish NLP Web Service." EACL. 2014.](http://web.itu.edu.tr/gulsenc/papers/itunlp.pdf)
