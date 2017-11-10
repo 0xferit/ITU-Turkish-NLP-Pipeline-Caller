@@ -17,7 +17,7 @@ For details of the pipeline, please check the pipeline page and the sources belo
 of Turkish. Computational Linguistics, 34 no.3, 2008.](http://www.mitpressjournals.org/doi/pdf/10.1162/coli.2008.07-017-R1-06-83)
 
 ## Usage
-To be able to use the pipeline, you need an **authentication token** (details on API web page).
+To be able to use the pipeline, you need an **authentication token** (details on [API web page](http://tools.nlp.itu.edu.tr/)).
 
 If you experience any problem please contact with me via email (see author section), or preferably via the [gitter chat room](https://gitter.im/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller).
 ### Setup
