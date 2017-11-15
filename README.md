@@ -19,7 +19,7 @@ of Turkish. Computational Linguistics, 34 no.3, 2008.](http://www.mitpressjourna
 ## Usage
 To be able to use the pipeline, you need an **authentication token** (details on [API web page](http://tools.nlp.itu.edu.tr/)).
 
-If you experience any problem please contact with me via email (see author section), or preferably via the [gitter chat room](https://gitter.im/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller).
+If you experience any problem please contact with me via the [gitter chat room](https://gitter.im/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller).
 ### Setup
 #### Recommended way
 Using [PyPI](https://pypi.python.org/pypi) just run `pip3 install ITU-Turkish-NLP-Pipeline-Caller`
