@@ -1,3 +1,6 @@
+*As I no longer have time to maintain this project I am looking for collaborators to help to maintain. You can sign up by sending a pull request which fixes a bug or adds a feature.*
+
+
 # ITU Turkish NLP Pipeline Caller 
 [![Build Status](https://travis-ci.org/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller.svg?branch=master)](https://travis-ci.org/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller) [![PyPI version](https://badge.fury.io/py/ITU-Turkish-NLP-Pipeline-Caller.svg)](https://badge.fury.io/py/ITU-Turkish-NLP-Pipeline-Caller) [![Join the chat at https://gitter.im/freecodecamp/freecodecamp](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller)   [![Codacy Badge](https://api.codacy.com/project/badge/grade/6368b6f3c39d4199b2ed162b79944a27)](https://www.codacy.com/app/ferit-tuncer/ITU-Turkish-NLP-Pipeline-Caller)
 
@@ -77,7 +80,7 @@ Special thanks to [Asst. Prof. Dr. Peter Schüller](https://github.com/peschue) 
 ## Author, Copyright & License
 This work is a part of a [KnowLP](http://www.knowlp.com) research project.
 
-Copyright 2015-2017 Ferit Tunçer, <ferit@lavabit.com>
+Copyright 2015-2017 Ferit Tunçer, <ferit@cryptolab.net>
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 2
