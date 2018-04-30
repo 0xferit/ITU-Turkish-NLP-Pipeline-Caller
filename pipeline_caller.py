@@ -36,15 +36,14 @@ TOKEN_PATH = 'pipeline.token'
 DEFAULT_ENCODING = locale.getpreferredencoding(False)
 DEFAULT_OUTPUT_DIR = 'output'
 
-class PipelineCaller(object):
 
+class PipelineCaller(object):
     API_URL = 'http://tools.nlp.itu.edu.tr/SimpleApi'
     PIPELINE_ENCODING = 'UTF-8'
 
     DEFAULT_SENTENCE_SPLIT_DELIMITER_CLASS = '[\.\?:;!]'
 
-
-    def __init__(self, tool='pipelineNoisy', text ='example', token='invalid', processing_type='whole'):
+    def __init__(self, tool='pipelineNoisy', text='example', token='invalid', processing_type='whole'):
         self.tool = tool
         self.text = text
         self.token = token
@@ -52,11 +51,11 @@ class PipelineCaller(object):
 
     def call(self):
 
-        if self.processing_type=='whole':
+        if self.processing_type == 'whole':
             params = self.encodeParams(self.tool, self.text, self.token)
             return self.request(params)
 
-        if self.processing_type=='sentence':
+        if self.processing_type == 'sentence':
             output = ''
             self.parseSentences()
             for sentence in self.sentences:
@@ -64,7 +63,7 @@ class PipelineCaller(object):
                 output += self.request(params) + '\n'
             return output
 
-        if self.processing_type=='word':
+        if self.processing_type == 'word':
             output = ''
             self.parseWords()
             for word in self.words:
@@ -95,6 +94,7 @@ class PipelineCaller(object):
         response = urllib.request.urlopen(self.API_URL, params)
         return response.read().decode(self.PIPELINE_ENCODING)
 
+
 def __readInput(path, encoding):
     with open(path, encoding=encoding) as input_file:
         text = ''
@@ -122,11 +122,12 @@ def __conditional_info(to_be_printed, quiet):
 
 
 def __parseArguments():
-    #epilog section is free now
+    # epilog section is free now
     parser = argparse.ArgumentParser(
-    formatter_class=argparse.RawDescriptionHelpFormatter,
-    description='ITU Turkish NLP Pipeline Caller v{}\n{} <{}>\n{}'.format(version, author, email, website),
-    add_help=True)
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        description='ITU Turkish NLP Pipeline Caller v{}\n{} <{}>\n{}'.format(version, author, email, website),
+        add_help=True
+    )
     parser.add_argument('filename', help='relative input filepath')
     parser.add_argument('-p', '--processing-type', dest='processing_type', choices=['word', 'sentence', 'whole'], default='whole', help='Switches processing type, default is whole text at once. Alternatively, word by word or sentence by sentence processing can be selected.')
     parser.add_argument('-q', '--quiet', dest='quiet', action='store_true', help='no info during process')
@@ -136,8 +137,8 @@ def __parseArguments():
     parser.add_argument('--version', action='version', version='{} {}'.format(name, version), help='version information')
     parser.add_argument('--license', action='version', version='{}'.format(__license__), help='license information')
 
-
     return parser.parse_args()
+
 
 def main(args=None):
     if args is None:
@@ -152,8 +153,6 @@ def main(args=None):
     __conditional_info('[INFO] Output destination: .{}{}'.format(os.sep, output_path), args.quiet)
     start_time = time.time()
 
-
-
     caller = PipelineCaller(args.tool, text, token, args.processing_type)
     with open(output_path, 'w', encoding=args.encoding) as output_file:
         output_file.write('{}\n'.format(caller.call()))
@@ -164,8 +163,6 @@ def main(args=None):
         print('[DONE] It took {0} seconds to process whole text.'.format(str(time.time()-start_time).split('.')[0]))
     if args.processing_type == 'word':
         print('[DONE] It took {0} seconds to process whole text.'.format(str(time.time()-start_time).split('.')[0]))
-    
-    
 
 
 if __name__ == '__main__':
