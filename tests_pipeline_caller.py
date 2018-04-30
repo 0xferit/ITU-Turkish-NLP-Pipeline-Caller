@@ -46,7 +46,7 @@ class Test(unittest.TestCase):
         response = caller.call()
 
         print(response)
-        assert len(re.findall(r, response)) == 33
+        assert len(re.findall(r, response)) == 29
 
     def tool_exception_test(self):
         exec(open('./pipeline_caller.py').read())
