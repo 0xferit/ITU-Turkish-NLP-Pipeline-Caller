@@ -52,14 +52,14 @@ class PipelineCaller(object):
     def call(self):
 
         if self.processing_type == 'whole':
-            params = self.encode_parameters(self.tool, self.text, self.token)
+            params = self.encode_parameters(self.text)
             return self.request(params)
 
         if self.processing_type == 'sentence':
             output = ''
             self.parse_sentences()
             for sentence in self.sentences:
-                params = self.encode_parameters(self.tool, sentence, self.token)
+                params = self.encode_parameters(sentence)
                 output += self.request(params) + '\n'
             return output
 
@@ -67,7 +67,7 @@ class PipelineCaller(object):
             output = ''
             self.parse_words()
             for word in self.words:
-                params = self.encode_parameters(self.tool, word, self.token)
+                params = self.encode_parameters(word)
                 output += self.request(params) + '\n'
             return output
 
@@ -87,7 +87,7 @@ class PipelineCaller(object):
                 self.words.append(word)
         self.word_count = len(self.words)
 
-    def encode_parameters(self, tool, text, token):
+    def encode_parameters(self, text):
         return urllib.parse.urlencode({'tool': self.tool, 'input': text, 'token': self.token}).encode(self.PIPELINE_ENCODING)
     
     def request(self, params):
@@ -141,10 +141,7 @@ def parse_arguments():
     return parser.parse_args()
 
 
-def main(args=None):
-    if args is None:
-        args = sys.argv[1:]
-        
+def main():
     args = parse_arguments()
     text = read_input(args.filename, args.encoding)
     output_path = get_output_path(args.output_dir)
