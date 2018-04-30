@@ -95,14 +95,6 @@ class PipelineCaller(object):
         return response.read().decode(self.PIPELINE_ENCODING)
 
 
-def read_input(path, encoding):
-    with open(path, encoding=encoding) as input_file:
-        text = ''
-        for line in input_file:
-            text += line
-    return text
-
-
 def get_token(filename=TOKEN_PATH, envvar=TOKEN_ENVVAR):
     """
     Returns pipeline_token for API
@@ -157,7 +149,10 @@ def parse_arguments():
 
 def main():
     args = parse_arguments()
-    text = read_input(args.filename, args.encoding)
+
+    with open(args.filename, encoding=args.encoding) as input_file:
+        text = input_file.read()
+
     output_path = get_output_path(args.output_dir)
     token = get_token()
     conditional_info('[INFO] Pipeline tool: {}'.format(args.tool), args.quiet)
