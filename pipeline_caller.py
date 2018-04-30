@@ -52,26 +52,26 @@ class PipelineCaller(object):
     def call(self):
 
         if self.processing_type == 'whole':
-            params = self.encodeParams(self.tool, self.text, self.token)
+            params = self.encode_parameters(self.tool, self.text, self.token)
             return self.request(params)
 
         if self.processing_type == 'sentence':
             output = ''
-            self.parseSentences()
+            self.parse_sentences()
             for sentence in self.sentences:
-                params = self.encodeParams(self.tool, sentence, self.token)
+                params = self.encode_parameters(self.tool, sentence, self.token)
                 output += self.request(params) + '\n'
             return output
 
         if self.processing_type == 'word':
             output = ''
-            self.parseWords()
+            self.parse_words()
             for word in self.words:
-                params = self.encodeParams(self.tool, word, self.token)
+                params = self.encode_parameters(self.tool, word, self.token)
                 output += self.request(params) + '\n'
             return output
 
-    def parseSentences(self):
+    def parse_sentences(self):
         r = re.compile(r'(?<=(?:{}))\s+'.format(PipelineCaller.DEFAULT_SENTENCE_SPLIT_DELIMITER_CLASS))
         self.sentences = r.split(self.text)
         sentence_count = len(self.sentences)
@@ -79,15 +79,15 @@ class PipelineCaller(object):
             self.sentences.pop(sentence_count-1)
         self.sentence_count = len(self.sentences)
 
-    def parseWords(self):
-        self.parseSentences()
+    def parse_words(self):
+        self.parse_sentences()
         self.words = []
         for sentence in self.sentences:
             for word in sentence.split():
                 self.words.append(word)
         self.word_count = len(self.words)
 
-    def encodeParams(self, tool, text, token):
+    def encode_parameters(self, tool, text, token):
         return urllib.parse.urlencode({'tool': self.tool, 'input': text, 'token': self.token}).encode(self.PIPELINE_ENCODING)
     
     def request(self, params):
@@ -95,7 +95,7 @@ class PipelineCaller(object):
         return response.read().decode(self.PIPELINE_ENCODING)
 
 
-def __readInput(path, encoding):
+def read_input(path, encoding):
     with open(path, encoding=encoding) as input_file:
         text = ''
         for line in input_file:
@@ -103,25 +103,26 @@ def __readInput(path, encoding):
     return text
 
 
-def __readToken():
+def get_token():
     token_file = open(TOKEN_PATH)
     token = token_file.readline().strip()
     return token
 
 
-def __getOutputPath(output_dir):
+def get_output_path(output_dir):
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
+
     filepath = os.path.join(output_dir, 'output{0}'.format(str(time.time()).split('.')[0]))
     return filepath
 
 
-def __conditional_info(to_be_printed, quiet):
+def conditional_info(to_be_printed, quiet):
     if quiet == 0:
         print(to_be_printed)
 
 
-def __parseArguments():
+def parse_arguments():
     # epilog section is free now
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -144,13 +145,13 @@ def main(args=None):
     if args is None:
         args = sys.argv[1:]
         
-    args = __parseArguments()
-    text = __readInput(args.filename, args.encoding)
-    output_path = __getOutputPath(args.output_dir)
-    token = __readToken()
-    __conditional_info('[INFO] Pipeline tool: {}'.format(args.tool), args.quiet)
-    __conditional_info('[INFO] File I/O encoding: {}'.format(args.encoding), args.quiet)
-    __conditional_info('[INFO] Output destination: .{}{}'.format(os.sep, output_path), args.quiet)
+    args = parse_arguments()
+    text = read_input(args.filename, args.encoding)
+    output_path = get_output_path(args.output_dir)
+    token = get_token()
+    conditional_info('[INFO] Pipeline tool: {}'.format(args.tool), args.quiet)
+    conditional_info('[INFO] File I/O encoding: {}'.format(args.encoding), args.quiet)
+    conditional_info('[INFO] Output destination: .{}{}'.format(os.sep, output_path), args.quiet)
     start_time = time.time()
 
     caller = PipelineCaller(args.tool, text, token, args.processing_type)
