@@ -49,6 +49,9 @@ class PipelineCaller(object):
         self.token = token
         self.processing_type = processing_type
 
+        self.sentences = []
+        self.words = []
+
     def call(self):
 
         if self.processing_type == 'whole':
@@ -75,26 +78,19 @@ class PipelineCaller(object):
 
             return "\n".join(results)
 
-
     def parse_sentences(self):
         r = re.compile(r'(?<=(?:{}))\s+'.format(PipelineCaller.DEFAULT_SENTENCE_SPLIT_DELIMITER_CLASS))
         self.sentences = r.split(self.text)
-        sentence_count = len(self.sentences)
 
-        if re.match('^\s*$', self.sentences[sentence_count-1]):
-            self.sentences.pop(sentence_count-1)
-
-        self.sentence_count = len(self.sentences)
+        if re.match('^\s*$', self.sentences[-1]):
+            self.sentences.pop(-1)
 
     def parse_words(self):
         self.parse_sentences()
-        self.words = []
 
         for sentence in self.sentences:
             for word in sentence.split():
                 self.words.append(word)
-
-        self.word_count = len(self.words)
 
     def encode_parameters(self, text):
         return urllib.parse.urlencode({'tool': self.tool, 'input': text, 'token': self.token}).encode(self.PIPELINE_ENCODING)
