@@ -149,18 +149,16 @@ def main():
     conditional_info('[INFO] Pipeline tool: {}'.format(args.tool), args.quiet)
     conditional_info('[INFO] File I/O encoding: {}'.format(args.encoding), args.quiet)
     conditional_info('[INFO] Output destination: .{}{}'.format(os.sep, output_path), args.quiet)
+
     start_time = time.time()
 
     caller = PipelineCaller(args.tool, text, token, args.processing_type)
     with open(output_path, 'w', encoding=args.encoding) as output_file:
         output_file.write('{}\n'.format(caller.call()))
-    
-    if args.processing_type == 'whole':
-        print('[DONE] It took {0} seconds to process whole text.'.format(str(time.time()-start_time).split('.')[0]))
-    if args.processing_type == 'sentence':
-        print('[DONE] It took {0} seconds to process whole text.'.format(str(time.time()-start_time).split('.')[0]))
-    if args.processing_type == 'word':
-        print('[DONE] It took {0} seconds to process whole text.'.format(str(time.time()-start_time).split('.')[0]))
+
+    process_time = time.time() - start_time
+
+    print("[DONE] It took {0:.0f} seconds to process whole text.".format(process_time))
 
 
 if __name__ == '__main__':
