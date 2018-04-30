@@ -56,35 +56,44 @@ class PipelineCaller(object):
             return self.request(params)
 
         if self.processing_type == 'sentence':
-            output = ''
+            results = []
             self.parse_sentences()
+
             for sentence in self.sentences:
                 params = self.encode_parameters(sentence)
-                output += self.request(params) + '\n'
-            return output
+                results.append(self.request(params))
+
+            return "\n".join(results)
 
         if self.processing_type == 'word':
-            output = ''
+            results = []
             self.parse_words()
+
             for word in self.words:
                 params = self.encode_parameters(word)
-                output += self.request(params) + '\n'
-            return output
+                results.append(self.request(params))
+
+            return "\n".join(results)
+
 
     def parse_sentences(self):
         r = re.compile(r'(?<=(?:{}))\s+'.format(PipelineCaller.DEFAULT_SENTENCE_SPLIT_DELIMITER_CLASS))
         self.sentences = r.split(self.text)
         sentence_count = len(self.sentences)
+
         if re.match('^\s*$', self.sentences[sentence_count-1]):
             self.sentences.pop(sentence_count-1)
+
         self.sentence_count = len(self.sentences)
 
     def parse_words(self):
         self.parse_sentences()
         self.words = []
+
         for sentence in self.sentences:
             for word in sentence.split():
                 self.words.append(word)
+
         self.word_count = len(self.words)
 
     def encode_parameters(self, text):
@@ -119,7 +128,7 @@ def get_output_path(output_dir):
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 
-    filepath = os.path.join(output_dir, 'output{0}'.format(str(time.time()).split('.')[0]))
+    filepath = os.path.join(output_dir, 'output{0:.0f}'.format(time.time()))
     return filepath
 
 
