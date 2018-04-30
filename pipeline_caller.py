@@ -24,15 +24,15 @@ version = '3.0.0'
 
 import argparse
 import locale
-import os.path
+import os
 import re
-import sys
 import time
 
 import urllib.parse
 import urllib.request
 
-TOKEN_PATH = 'pipeline.token'
+TOKEN_PATH = "pipeline.token"
+TOKEN_ENVVAR = "pipeline_token"
 DEFAULT_ENCODING = locale.getpreferredencoding(False)
 DEFAULT_OUTPUT_DIR = 'output'
 
@@ -103,9 +103,23 @@ def read_input(path, encoding):
     return text
 
 
-def get_token():
-    token_file = open(TOKEN_PATH)
-    token = token_file.readline().strip()
+def get_token(filename=TOKEN_PATH, envvar=TOKEN_ENVVAR):
+    """
+    Returns pipeline_token for API
+
+    Tries local file first, then env variable
+    """
+    if os.path.isfile(filename):
+        with open(filename) as token_file:
+            token = token_file.readline().strip()
+
+    else:
+        token = os.environ.get(envvar)
+
+        if not token:
+            raise ValueError("No token found.\n"
+                             "{} file doesn't exist.\n{} environment variable is not set.".format(filename, envvar))
+
     return token
 
 

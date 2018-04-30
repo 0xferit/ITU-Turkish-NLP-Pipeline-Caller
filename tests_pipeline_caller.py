@@ -7,7 +7,7 @@ import subprocess
 import sys
 import unittest
 
-import pipeline_caller
+from pipeline_caller import PipelineCaller, get_token
 
 KATANA = 'Katana\'yı saklarız, dedi Ramiz, ben giderim bahçeye, tüm yeşil erikleri toplar gelirim, sonra da erikleri komşuya götürür, ondan Katana\'yı ele vermemesini isterim.'
 KELIME = 'kelime kelime gönderelim bakalım'
@@ -16,7 +16,7 @@ UCDORT = '    Üç   -      dört      kız      başı      göründü      .  
 
 class Test(unittest.TestCase):
     def module_Vowelizer_word_test(self):
-        caller = pipeline_caller.PipelineCaller('Vowelizer', KELIME, os.environ['pipeline_token'], 'word')
+        caller = PipelineCaller('Vowelizer', KELIME, get_token(), 'word')
 
         r = re.compile(r'(.+?\n)', re.MULTILINE)
 
@@ -26,7 +26,7 @@ class Test(unittest.TestCase):
         assert len(re.findall(r, response)) == 4
 
     def module_pipelineNoisy_sentence_test(self):
-        caller = pipeline_caller.PipelineCaller('pipelineNoisy', UCDORT, os.environ['pipeline_token'], 'sentence')
+        caller = PipelineCaller('pipelineNoisy', UCDORT, get_token(), 'sentence')
 
         r1 = re.compile(r'(1)(\t.+?){7,}', re.MULTILINE)
         r2 = re.compile(r'(5)(\t.+?){7,}', re.MULTILINE)
@@ -37,7 +37,7 @@ class Test(unittest.TestCase):
         assert len(re.findall(r1, response)) == 2 and len(re.findall(r2, response)) == 1
 
     def module_pipelineNoisy_whole_test(self):
-        caller = pipeline_caller.PipelineCaller('pipelineNoisy', KATANA, os.environ['pipeline_token'], 'whole')
+        caller = PipelineCaller('pipelineNoisy', KATANA, get_token(), 'whole')
 
         r = re.compile(r'(\d+)(\t.+?){7,}', re.MULTILINE)
 
