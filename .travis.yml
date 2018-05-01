@@ -3,7 +3,13 @@ python:
   - "3.4"
   - "3.5"
   - "3.6"
-install: pip install codecov
+cache:
+  pip: true
+  directories:
+    - "$HOME/nltk_data"
+install:
+  - pip install codecov
+  - python setup.py install
 script: nosetests -v --with-coverage --nocapture tests_pipeline_caller.py
 after_success:
   - codecov

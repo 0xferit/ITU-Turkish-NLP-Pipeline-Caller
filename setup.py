@@ -1,4 +1,3 @@
-import pipeline_caller
 from setuptools import setup, find_packages
 
 
@@ -9,7 +8,8 @@ def readme():
 
 setup(
     name="ITU-Turkish-NLP-Pipeline-Caller",
-    version=pipeline_caller.version,
+    version="3.0.0",
+    install_requires=["nltk==3.2.5"],
     packages=find_packages(),
     py_modules=['pipeline_caller'],
     entry_points={

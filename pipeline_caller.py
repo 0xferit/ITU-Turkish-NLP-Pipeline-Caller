@@ -25,11 +25,16 @@ version = '3.0.0'
 import argparse
 import locale
 import os
-import re
 import time
 
 import urllib.parse
 import urllib.request
+
+import nltk
+from nltk.tokenize import sent_tokenize
+nltk.download('punkt')
+
+
 
 TOKEN_PATH = "pipeline.token"
 TOKEN_ENVVAR = "pipeline_token"
@@ -40,8 +45,6 @@ DEFAULT_OUTPUT_DIR = 'output'
 class PipelineCaller(object):
     API_URL = 'http://tools.nlp.itu.edu.tr/SimpleApi'
     PIPELINE_ENCODING = 'UTF-8'
-
-    DEFAULT_SENTENCE_SPLIT_DELIMITER_CLASS = '[\.\?:;!]'
 
     def __init__(self, tool='pipelineNoisy', text='example', token='invalid', processing_type='whole'):
         self.tool = tool
@@ -60,7 +63,7 @@ class PipelineCaller(object):
 
         if self.processing_type == 'sentence':
             results = []
-            self.parse_sentences()
+            self.sentences = sent_tokenize(self.text)
 
             for sentence in self.sentences:
                 params = self.encode_parameters(sentence)
@@ -78,15 +81,8 @@ class PipelineCaller(object):
 
             return "\n".join(results)
 
-    def parse_sentences(self):
-        r = re.compile(r'(?<=(?:{}))\s+'.format(PipelineCaller.DEFAULT_SENTENCE_SPLIT_DELIMITER_CLASS))
-        self.sentences = r.split(self.text)
-
-        if re.match('^\s*$', self.sentences[-1]):
-            self.sentences.pop(-1)
-
     def parse_words(self):
-        self.parse_sentences()
+        self.sentences = sent_tokenize(self.text)
 
         for sentence in self.sentences:
             for word in sentence.split():
