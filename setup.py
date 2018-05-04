@@ -26,5 +26,7 @@ setup(
        'License :: OSI Approved :: GNU General Public License v2 (GPLv2)',
        'Topic :: Text Processing :: Linguistic',
        'Natural Language :: Turkish',
-       'Programming Language :: Python :: 3',]
+       'Programming Language :: Python :: 3',
+       'Programming Language :: Python :: 3.6',
+    ]
 )
