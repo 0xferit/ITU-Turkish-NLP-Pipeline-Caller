@@ -92,42 +92,34 @@ class PipelineCaller(object):
         return urllib.parse.urlencode({'tool': self.tool, 'input': text, 'token': self.token}).encode(self.PIPELINE_ENCODING)
     
     def request(self, params):
-        try:
-            response = urllib.request.urlopen(self.API_URL, params)
-            return response.read().decode(self.PIPELINE_ENCODING)
-        except:
-            raise
+        response = urllib.request.urlopen(self.API_URL, params)
+        return response.read().decode(self.PIPELINE_ENCODING)
 
 def __readInput(path, encoding):
-    try:
-        with open(path, encoding=encoding) as input_file:
-            text = ''
-            for line in input_file:
-                text += line
-        return text
-    except:
-        raise
+    with open(path, encoding=encoding) as input_file:
+        text = ''
+        for line in input_file:
+            text += line
+    return text
+
 
 def __readToken():
-    try:
-        token_file = open(TOKEN_PATH)
-        token = token_file.readline().strip()
-        return token
-    except:
-        raise
+    token_file = open(TOKEN_PATH)
+    token = token_file.readline().strip()
+    return token
+
 
 def __getOutputPath(output_dir):
-    try:
-        if not os.path.exists(output_dir):
-            os.makedirs(output_dir)
-        filepath = os.path.join(output_dir, 'output{0}'.format(str(time.time()).split('.')[0]))
-        return filepath
-    except:
-        raise
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+    filepath = os.path.join(output_dir, 'output{0}'.format(str(time.time()).split('.')[0]))
+    return filepath
+
 
 def __conditional_info(to_be_printed, quiet):
     if quiet == 0:
         print(to_be_printed)
+
 
 def __parseArguments():
     #epilog section is free now
