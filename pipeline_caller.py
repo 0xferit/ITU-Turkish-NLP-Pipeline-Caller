@@ -24,15 +24,15 @@ version = '3.0.0'
 
 import argparse
 import locale
-import os.path
+import os
 import re
-import sys
 import time
 
 import urllib.parse
 import urllib.request
 
-TOKEN_PATH = 'pipeline.token'
+TOKEN_PATH = "pipeline.token"
+TOKEN_ENVVAR = "pipeline_token"
 DEFAULT_ENCODING = locale.getpreferredencoding(False)
 DEFAULT_OUTPUT_DIR = 'output'
 
@@ -49,45 +49,50 @@ class PipelineCaller(object):
         self.token = token
         self.processing_type = processing_type
 
+        self.sentences = []
+        self.words = []
+
     def call(self):
 
         if self.processing_type == 'whole':
-            params = self.encodeParams(self.tool, self.text, self.token)
+            params = self.encode_parameters(self.text)
             return self.request(params)
 
         if self.processing_type == 'sentence':
-            output = ''
-            self.parseSentences()
+            results = []
+            self.parse_sentences()
+
             for sentence in self.sentences:
-                params = self.encodeParams(self.tool, sentence, self.token)
-                output += self.request(params) + '\n'
-            return output
+                params = self.encode_parameters(sentence)
+                results.append(self.request(params))
+
+            return "\n".join(results)
 
         if self.processing_type == 'word':
-            output = ''
-            self.parseWords()
-            for word in self.words:
-                params = self.encodeParams(self.tool, word, self.token)
-                output += self.request(params) + '\n'
-            return output
+            results = []
+            self.parse_words()
 
-    def parseSentences(self):
+            for word in self.words:
+                params = self.encode_parameters(word)
+                results.append(self.request(params))
+
+            return "\n".join(results)
+
+    def parse_sentences(self):
         r = re.compile(r'(?<=(?:{}))\s+'.format(PipelineCaller.DEFAULT_SENTENCE_SPLIT_DELIMITER_CLASS))
         self.sentences = r.split(self.text)
-        sentence_count = len(self.sentences)
-        if re.match('^\s*$', self.sentences[sentence_count-1]):
-            self.sentences.pop(sentence_count-1)
-        self.sentence_count = len(self.sentences)
 
-    def parseWords(self):
-        self.parseSentences()
-        self.words = []
+        if re.match('^\s*$', self.sentences[-1]):
+            self.sentences.pop(-1)
+
+    def parse_words(self):
+        self.parse_sentences()
+
         for sentence in self.sentences:
             for word in sentence.split():
                 self.words.append(word)
-        self.word_count = len(self.words)
 
-    def encodeParams(self, tool, text, token):
+    def encode_parameters(self, text):
         return urllib.parse.urlencode({'tool': self.tool, 'input': text, 'token': self.token}).encode(self.PIPELINE_ENCODING)
     
     def request(self, params):
@@ -95,33 +100,40 @@ class PipelineCaller(object):
         return response.read().decode(self.PIPELINE_ENCODING)
 
 
-def __readInput(path, encoding):
-    with open(path, encoding=encoding) as input_file:
-        text = ''
-        for line in input_file:
-            text += line
-    return text
+def get_token(filename=TOKEN_PATH, envvar=TOKEN_ENVVAR):
+    """
+    Returns pipeline_token for API
 
+    Tries local file first, then env variable
+    """
+    if os.path.isfile(filename):
+        with open(filename) as token_file:
+            token = token_file.readline().strip()
 
-def __readToken():
-    token_file = open(TOKEN_PATH)
-    token = token_file.readline().strip()
+    else:
+        token = os.environ.get(envvar)
+
+        if not token:
+            raise ValueError("No token found.\n"
+                             "{} file doesn't exist.\n{} environment variable is not set.".format(filename, envvar))
+
     return token
 
 
-def __getOutputPath(output_dir):
+def get_output_path(output_dir):
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
-    filepath = os.path.join(output_dir, 'output{0}'.format(str(time.time()).split('.')[0]))
+
+    filepath = os.path.join(output_dir, 'output{0:.0f}'.format(time.time()))
     return filepath
 
 
-def __conditional_info(to_be_printed, quiet):
+def conditional_info(to_be_printed, quiet):
     if quiet == 0:
         print(to_be_printed)
 
 
-def __parseArguments():
+def parse_arguments():
     # epilog section is free now
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -140,29 +152,27 @@ def __parseArguments():
     return parser.parse_args()
 
 
-def main(args=None):
-    if args is None:
-        args = sys.argv[1:]
-        
-    args = __parseArguments()
-    text = __readInput(args.filename, args.encoding)
-    output_path = __getOutputPath(args.output_dir)
-    token = __readToken()
-    __conditional_info('[INFO] Pipeline tool: {}'.format(args.tool), args.quiet)
-    __conditional_info('[INFO] File I/O encoding: {}'.format(args.encoding), args.quiet)
-    __conditional_info('[INFO] Output destination: .{}{}'.format(os.sep, output_path), args.quiet)
+def main():
+    args = parse_arguments()
+
+    with open(args.filename, encoding=args.encoding) as input_file:
+        text = input_file.read()
+
+    output_path = get_output_path(args.output_dir)
+    token = get_token()
+    conditional_info('[INFO] Pipeline tool: {}'.format(args.tool), args.quiet)
+    conditional_info('[INFO] File I/O encoding: {}'.format(args.encoding), args.quiet)
+    conditional_info('[INFO] Output destination: .{}{}'.format(os.sep, output_path), args.quiet)
+
     start_time = time.time()
 
     caller = PipelineCaller(args.tool, text, token, args.processing_type)
     with open(output_path, 'w', encoding=args.encoding) as output_file:
         output_file.write('{}\n'.format(caller.call()))
-    
-    if args.processing_type == 'whole':
-        print('[DONE] It took {0} seconds to process whole text.'.format(str(time.time()-start_time).split('.')[0]))
-    if args.processing_type == 'sentence':
-        print('[DONE] It took {0} seconds to process whole text.'.format(str(time.time()-start_time).split('.')[0]))
-    if args.processing_type == 'word':
-        print('[DONE] It took {0} seconds to process whole text.'.format(str(time.time()-start_time).split('.')[0]))
+
+    process_time = time.time() - start_time
+
+    print("[DONE] It took {0:.0f} seconds to process whole text.".format(process_time))
 
 
 if __name__ == '__main__':
