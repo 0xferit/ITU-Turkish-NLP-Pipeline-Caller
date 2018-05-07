@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 #-*- coding: utf-8 -*-
 
-name = 'ITU Turkish NLP Pipeline Caller' 
+name = 'ITU Turkish NLP Pipeline Caller'
 
-__copyright__ = '__copyright__ 2015-2017 Ferit Tunçer'
+__copyright__ = '__copyright__ 2015-2018 Maintainers'
 
 __license__ = 'GPLv2\n\
 This program is free software; you can redistribute it and/or \
