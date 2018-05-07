@@ -81,9 +81,13 @@ Check DEFAULTS block in the source code if you need (generally, you don't) to ch
 Special thanks to [Asst. Prof. Dr. Peter Schüller](https://github.com/peschue) for his great suggestions!
 
 ## Author, Copyright & License
-This work is a part of a [KnowLP](http://www.knowlp.com) research project.
+This work was a part of a [KnowLP](http://www.knowlp.com) research project.
 
-Copyright 2015-2017 Ferit Tunçer, <ferit@cryptolab.net>
+Copyright 2015-2018 Maintainers: 
+
+* Ferit Tunçer, <ferit@cryptolab.net>
+* Ülgen Sarıkavak, <work@ulgens.me>
+ 
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 2

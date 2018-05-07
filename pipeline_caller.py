@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 #-*- coding: utf-8 -*-
 
-name = 'ITU Turkish NLP Pipeline Caller' 
+name = 'ITU Turkish NLP Pipeline Caller'
 
-__copyright__ = '__copyright__ 2015-2017 Ferit Tunçer'
+__copyright__ = '__copyright__ 2015-2018 Maintainers'
 
 __license__ = 'GPLv2\n\
 This program is free software; you can redistribute it and/or \
@@ -16,8 +16,8 @@ GNU General Public license for more details. \
 You should have received a copy of the GNU General Public license \
 along with this program.  If not, see <http://www.gnu.org/licenses/>.'
 
-author = 'Ferit Tunçer'
-email = 'ferit@lavabit.com'
+author0 = ('Ferit Tunçer', 'ferit@cryptolab.net')
+author1 = ('Ülgen Sarıkavak', 'work@ulgens.me')
 website = 'https://github.com/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller'
 
 version = '3.0.0'
@@ -137,7 +137,7 @@ def parse_arguments():
     # epilog section is free now
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawDescriptionHelpFormatter,
-        description='ITU Turkish NLP Pipeline Caller v{}\n{} <{}>\n{}'.format(version, author, email, website),
+        description='ITU Turkish NLP Pipeline Caller v{}\n\n  Maintained by:\n    {} {}\n    {} {}\n\n  {}'.format(version, *author0, *author1, website),
         add_help=True
     )
     parser.add_argument('filename', help='relative input filepath')
