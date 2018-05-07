@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public license \
 along with this program.  If not, see <http://www.gnu.org/licenses/>.'
 
 author0 = ('Ferit Tunçer', 'ferit@cryptolab.net')
-author1 = ('Ülgen Sarıkavak', 'https://github.com/ulgens')
+author1 = ('Ülgen Sarıkavak', 'work@ulgens.me')
 website = 'https://github.com/ferittuncer/ITU-Turkish-NLP-Pipeline-Caller'
 
 version = '3.0.0'

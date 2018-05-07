@@ -86,7 +86,7 @@ This work was a part of a [KnowLP](http://www.knowlp.com) research project.
 Copyright 2015-2018 Maintainers: 
 
 * Ferit Tunçer, <ferit@cryptolab.net>
-* Ülgen Sarıkavak, <emailhere>
+* Ülgen Sarıkavak, <work@ulgens.me>
  
 
 This program is free software; you can redistribute it and/or
